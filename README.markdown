@@ -13,6 +13,7 @@ Color will create a new object for you from an object or string. Note that this 
 
     var Green = Color("#00FF00");
     var Red = Color({hue: 0, saturation: 1, value: 1});
+    var Blue = Color("rgb(0,0,255)");
 
 Each method on color either returns a new color (or set of colors) or returns a value. You can chain manipulation methods together as much as you need. Eg
 
