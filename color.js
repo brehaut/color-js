@@ -406,7 +406,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     shiftHue: cloneOnApply(function ( degrees ) {
       var hue = (this.hue + degrees) % 360;
       if (hue < 0) {
-        hue = (360 + hue) % 360
+        hue = (360 + hue) % 360;
       }
 
       this.hue = hue;
