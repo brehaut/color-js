@@ -272,6 +272,13 @@ if (!net.brehaut) { net.brehaut = {}; }
     },
     
     _fromCSS: function ( css ) {
+      if (css.match(/^rgb\(/)) {
+        return this._fromRGBLiteral( css );
+      }
+      if (css.match(/^rgba\(/)) {
+        return this._fromRGBALiteral( css );
+      }
+
       if (css in css_colors) {
         css = css_colors[css.toLowerCase()];
       }
@@ -294,6 +301,30 @@ if (!net.brehaut) { net.brehaut = {}; }
       return rgb;
     },
     
+    _fromRGBLiteral: function ( css ) {
+      var colorGroups = css.match(/rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/);
+
+      var rgb = factories.RGB();
+      rgb.red =   colorGroups[1] / 255;
+      rgb.green = colorGroups[2] / 255;
+      rgb.blue =  colorGroups[3] / 255;
+
+      return rgb;
+    },
+
+    // currently just drops alpha and returns rgb
+    _fromRGBALiteral: function ( css ) {
+      var colorGroups = css.match(/rgba\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\)/);
+
+      var rgb = factories.RGB();
+      rgb.red =   colorGroups[1] / 255;
+      rgb.green = colorGroups[2] / 255;
+      rgb.blue =  colorGroups[3] / 255;
+      // var alpha = new Number(colorGroups[4]);
+
+      return rgb;
+    },
+
     _fromRGB: function ( RGB ) {
       var newRGB = factories.RGB();
       
