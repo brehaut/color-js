@@ -271,58 +271,65 @@ if (!net.brehaut) { net.brehaut = {}; }
       // nothing matchs, not an RGB object
     },
     
-    _fromCSS: function ( css ) {
-      if (css.match(/^rgb\(/)) {
-        return this._fromRGBLiteral( css );
-      }
-      if (css.match(/^rgba\(/)) {
-        return this._fromRGBALiteral( css );
-      }
+    _stringParsers: [
+        // CSS RGB literal:
+        function ( css ) {
+          var colorGroups = css.match(/rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/);
+          if (!colorGroups) return null;
 
-      if (css in css_colors) {
-        css = css_colors[css.toLowerCase()];
-      }
-      css = css.replace(/^#/,'');
-      
-      if (css.length === 0 || 
-          css.length % 3 ||
-          css.match(/[^0123456789aAbBcCdDeEfF]/)) {
-        return;
-      }
+          var rgb = factories.RGB();
+          rgb.red =   colorGroups[1] / 255;
+          rgb.green = colorGroups[2] / 255;
+          rgb.blue =  colorGroups[3] / 255;
 
-      var bytes = css.length / 3;
-      
-      var max = Math.pow(16, bytes) - 1;
-      
-      var rgb = factories.RGB();
-      rgb.red =   parseInt('0x' + css.slice(0, bytes), 16) / max;
-      rgb.green = parseInt('0x' + css.slice(bytes * 1,bytes * 2), 16) / max;
-      rgb.blue =  parseInt('0x' + css.slice(bytes * 2), 16) / max;
-      return rgb;
-    },
+          return rgb;
+        },
+
+        // CSS RGBA Literal
+        // currently just drops alpha and returns rgb
+        function ( css ) {
+          var colorGroups = css.match(/rgba\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\)/);
+          if (!colorGroups) return null;
+
+          var rgb = factories.RGB();
+          rgb.red =   colorGroups[1] / 255;
+          rgb.green = colorGroups[2] / 255;
+          rgb.blue =  colorGroups[3] / 255;
+          // var alpha = new Number(colorGroups[4]);
+
+          return rgb;
+        },
+        
+        function ( css ) {
+            if (css in css_colors) {
+              css = css_colors[css.toLowerCase()];
+            }
+            css = css.replace(/^#/,'');
+
+            if (css.length === 0 || 
+                css.length % 3 ||
+                css.match(/[^0123456789aAbBcCdDeEfF]/)) {
+              return;
+            }
+
+            var bytes = css.length / 3;
+
+            var max = Math.pow(16, bytes) - 1;
+
+            var rgb = factories.RGB();
+            rgb.red =   parseInt('0x' + css.slice(0, bytes), 16) / max;
+            rgb.green = parseInt('0x' + css.slice(bytes * 1,bytes * 2), 16) / max;
+            rgb.blue =  parseInt('0x' + css.slice(bytes * 2), 16) / max;
+            return rgb;
+        }
+    ],
     
-    _fromRGBLiteral: function ( css ) {
-      var colorGroups = css.match(/rgb\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\)/);
-
-      var rgb = factories.RGB();
-      rgb.red =   colorGroups[1] / 255;
-      rgb.green = colorGroups[2] / 255;
-      rgb.blue =  colorGroups[3] / 255;
-
-      return rgb;
-    },
-
-    // currently just drops alpha and returns rgb
-    _fromRGBALiteral: function ( css ) {
-      var colorGroups = css.match(/rgba\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\)/);
-
-      var rgb = factories.RGB();
-      rgb.red =   colorGroups[1] / 255;
-      rgb.green = colorGroups[2] / 255;
-      rgb.blue =  colorGroups[3] / 255;
-      // var alpha = new Number(colorGroups[4]);
-
-      return rgb;
+    _fromCSS: function ( css ) {
+      var color = null;
+      for (var i = 0, j = this._stringParsers.length; i < j; i++) {
+          color = this._stringParsers[i](css);
+          if (color) return color;
+      }
     },
 
     _fromRGB: function ( RGB ) {
