@@ -620,6 +620,50 @@ if (!net.brehaut) { net.brehaut = {}; }
     }
   });
   
+  registerModel('HSL', {
+    hue: 0,
+    saturation: 0,
+    lightness: 0,
+    
+    fromObject: function ( o ) {
+      if ("string" == typeof o) {
+        return this._fromCSS( o );
+      }
+      if (o.hasOwnProperty('hue') && 
+          o.hasOwnProperty('saturation') && 
+          o.hasOwnProperty('lightness')) {
+        return this._fromHSL ( o );
+      }
+      // nothing matchs, not an RGB object
+    },
+    
+    _fromCSS: function ( css ) {
+      var colorGroups = css.match(/hsl(a?)\(\s*?(\d+?)\s*?,\s*?(\d+?)%\s*?,\s*?(\d+?)%\s*?(,\s*?(?:\d+?|\d*?\.\d+?)\s*?)?\)/);
+      if (!colorGroups) return null;
+      if (!!colorGroups[1] + !!colorGroups[5] === 1) return null;
+      
+      var hsl = factories.HSL();
+      hsl.hue        = (colorGroups[2] % 360 + 360) % 360;
+      hsl.saturation = Math.max(0, Math.min(parseInt(colorGroups[3], 10) / 100, 1));
+      hsl.lightness  = Math.max(0, Math.min(parseInt(colorGroups[4], 10) / 100, 1));
+      
+      return hsl;
+    },
+    
+    _fromHSL: function ( HSL ) {
+      var newHSL = factories.HSL();
+      
+      newHSL.hue = HSL.hue;
+      newHSL.saturation = HSL.saturation;
+      newHSL.lightness = HSL.lightness;
+      
+      return newHSL;
+    },
+    
+    toHSV: function() {},
+    toRGB: function() {}
+  });
+  
   // Package specific exports
   
   /* the Color function is a factory for new color objects.
