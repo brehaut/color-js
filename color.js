@@ -46,7 +46,7 @@ if (!net.brehaut) { net.brehaut = {}; }
   // becomes the top level prototype object
   var color;
   
-  /* registered_odels contains the template objects for all the
+  /* registered_models contains the template objects for all the
    * models that have been registered for the color class.
    */
   var registered_models = [];
@@ -626,3 +626,10 @@ if (!net.brehaut) { net.brehaut = {}; }
     return color.fromObject( o );
   };
 }).call(net.brehaut);
+
+/* Export to CommonJS
+*/
+var module;
+if(module) {
+  module.exports.Color = net.brehaut.Color;
+}
