@@ -301,9 +301,11 @@ if (!net.brehaut) { net.brehaut = {}; }
         },
         
         function ( css ) {
-            if (css in css_colors) {
-              css = css_colors[css.toLowerCase()];
+            var lower = css.toLowerCase();
+            if (lower in css_colors) {
+              css = css_colors[lower];
             }
+            
             css = css.replace(/^#/,'');
 
             if (css.length === 0 || 
