@@ -1,4 +1,4 @@
-// Copyright (c) 2008, Andrew Brehaut
+// Copyright (c) 2008, Andrew Brehaut, Tim Baumann
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
@@ -22,11 +22,13 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 // POSSIBILITY OF SUCH DAMAGE.
 
-// color.js - version 0.3
+// color.js - version 0.4
 //
 // HSV <-> RGB code based on code from http://www.cs.rit.edu/~ncs/color/t_convert.html
 // object function created by Douglas Crockford.
 // Color scheme degrees taken from the colorjack.com colorpicker
+//
+// HSL support kindly provided by Tim Baumann - http://github.com/timjb
 
 // create namespaces
 /*global net */

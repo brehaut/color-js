@@ -95,7 +95,7 @@ The following methods return a list of colors
 
 ### Conversion and Construction
 
- * `fromObject( o )` : Color --- `o` is an object with values from a color model or a css hexdecimal string.
+ * `fromObject( o )` : Color --- `o` is an object with values from a color model or a css  string.
  * `toCSS([bytesPerChannel])` : String --- css hexdecimal representation. `bytesPerChannel` defaults to 2
  * `toString()` : String --- returns CSS representation
  * `toHSV()` : Color
@@ -113,6 +113,16 @@ With regard to programmatic style, Douglas Crockfords 'just the good parts' appr
 # Changes
 
 <dl>
+  <dt><em>July 24, 2010</em></dt>
+  <dd>Version 0.4
+    <ul>
+      <li>Support for HSL color model</li>
+      <li>Common.JS module support</li>
+      <li>Minor bug fixes</li>
+    </ul>
+  </dd>
+
+    
  <dt><em>January 14, 2008</em></dt>
  <dd>Version 0.3 released
    <ul>
