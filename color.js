@@ -395,6 +395,9 @@ if (!net.brehaut) { net.brehaut = {}; }
       
       return hsv;
     },
+    toHSL: function ( ) {
+      return this.toHSV().toHSL();
+    },
     
     toRGB: function ( ) {
       return this.clone();
@@ -614,6 +617,21 @@ if (!net.brehaut) { net.brehaut = {}; }
       
       return rgb;
     },
+    toHSL: function() {
+      this._normalise();
+      
+      var hsl = factories.HSL();
+      
+      hsl.hue = this.hue;
+      var l = (2 - this.saturation) * this.value,
+          s = this.saturation * this.value;
+      s /= (l <= 1) ? l : 2 - l;
+      l /= 2;
+      hsl.saturation = s;
+      hsl.lightness = l;
+      
+      return hsl;
+    },
     
     toHSV: function ( ) {
       return this.clone();
@@ -659,9 +677,33 @@ if (!net.brehaut) { net.brehaut = {}; }
       
       return newHSL;
     },
+
+    _normalise: function ( ) {
+       this.hue = (this.hue % 360 + 360) % 360;
+       this.saturation = Math.min(Math.max(0, this.saturation), 1);
+       this.lightness = Math.min(Math.max(0, this.lightness));
+    },
     
-    toHSV: function() {},
-    toRGB: function() {}
+    toHSL: function() {
+      return this.clone();
+    },
+    toHSV: function() {
+      this._normalise();
+      
+      var hsv = factories.HSV();
+      
+      // http://ariya.blogspot.com/2008/07/converting-between-hsl-and-hsv.html
+      hsv.hue = this.hue; // H
+      var l = 2 * this.lightness,
+          s = this.saturation * ((l <= 1) ? l : 2 - l);
+      hsv.value = (l + s) / 2; // V
+      hsv.saturation = (2 * s) / (l + s); // S
+      
+      return hsv;
+    },
+    toRGB: function() {
+      return this.toHSV().toRGB();
+    }
   });
   
   // Package specific exports

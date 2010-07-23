@@ -64,9 +64,14 @@ vows.describe('Color').addBatch({
       assert.deepEqual(color.toHSV(), Color({ hue: 30,
                                               saturation: 1,
                                               value: 1 }));
+    },
+    'converted to HSL should be equal to HSL(H=30; S=1; L=0.5)': function(color) {
+      assert.deepEqual( color.toHSL(), Color({ hue: 30,
+                                               saturation: 1,
+                                               lightness: .5 }) );
     }
   },
-  'An HSV color (H=180; S=1; V=0.5)': {
+  'A HSV color (H=180; S=1; V=0.5)': {
     topic: Color({ hue: 180,
                    saturation: 1,
                    value: .5 }),
@@ -75,6 +80,26 @@ vows.describe('Color').addBatch({
       assert.deepEqual(color.toRGB(), Color({ red: 0,
                                               green: .5,
                                               blue: .5 }));
+    },
+    'converted to HSL should be equal to HSL(H=180; S=1; L=0.25)': function(color) {
+      assert.deepEqual( color.toHSL(), Color({ hue: 180,
+                                               saturation: 1,
+                                               lightness: .25 }) );
+    }
+  },
+  'A HSL color (H=900; S=0.3; L=0.3)': {
+    topic: Color({ hue: 0,
+                   saturation: .25,
+                   lightness: .25 }),
+    'converted to RGB should be equal to RGB(R=0.3125; G=0.1875; B=0.1875)': function(color) {
+      assert.deepEqual( color.toRGB(), Color({ red: .3125,
+                                               green: .1875,
+                                               blue: .1875 }) );
+    },
+    'converted to HSV should be equal to HSV(H=0; S=0.4; V=0.3125)': function(color) {
+      assert.deepEqual( color.toHSV(), Color({ hue: 0,
+                                               saturation: .4,
+                                               value: .3125 }) );
     }
   },
   'Converting RGB(R=0.75; G=0.75; B=0.75) to a hex string': {
