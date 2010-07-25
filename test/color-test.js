@@ -87,7 +87,7 @@ vows.describe('Color').addBatch({
                                                lightness: .25 }) );
     }
   },
-  'A HSL color (H=900; S=0.3; L=0.3)': {
+  'A HSL color (H=0; S=0.25; L=0.25)': {
     topic: Color({ hue: 0,
                    saturation: .25,
                    lightness: .25 }),
