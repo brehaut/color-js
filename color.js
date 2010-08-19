@@ -307,23 +307,21 @@ if (!net.brehaut) { net.brehaut = {}; }
             if (lower in css_colors) {
               css = css_colors[lower];
             }
-            
-            css = css.replace(/^#/,'');
 
-            if (css.length === 0 || 
-                css.length % 3 ||
-                css.match(/[^0123456789aAbBcCdDeEfF]/)) {
+            if (!css.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/)) {
               return;
             }
+            
+            css = css.replace(/^#/,'');
 
             var bytes = css.length / 3;
 
             var max = Math.pow(16, bytes) - 1;
 
             var rgb = factories.RGB();
-            rgb.red =   parseInt('0x' + css.slice(0, bytes), 16) / max;
-            rgb.green = parseInt('0x' + css.slice(bytes * 1,bytes * 2), 16) / max;
-            rgb.blue =  parseInt('0x' + css.slice(bytes * 2), 16) / max;
+            rgb.red =   parseInt(css.slice(0, bytes), 16) / max;
+            rgb.green = parseInt(css.slice(bytes * 1,bytes * 2), 16) / max;
+            rgb.blue =  parseInt(css.slice(bytes * 2), 16) / max;
             return rgb;
         }
     ],
