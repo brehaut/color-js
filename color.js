@@ -566,7 +566,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       this._normalise();
 
       var rgb = factories.RGB();
-    	var i;
+      var i;
       var f, p, q, t;
   
       if( this.saturation === 0 ) {
