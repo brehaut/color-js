@@ -712,9 +712,22 @@ if (!net.brehaut) { net.brehaut = {}; }
   
   /* the Color function is a factory for new color objects.
    */
-  this.Color = function ( o ) {
+  function Color( o ) {
     return color.fromObject( o );
+  }
+  Color.isValid = function( str ) {
+    var c = Color( str );
+
+    var length = 0;
+    for(key in c) {
+      if(c.hasOwnProperty(key)) {
+        length++;
+      }
+    }
+
+    return length > 0;
   };
+  net.brehaut.Color = Color;
 }).call(net.brehaut);
 
 /* Export to CommonJS
