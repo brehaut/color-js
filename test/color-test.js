@@ -1,11 +1,29 @@
 var vows   = require('vows'),
-    assert = require('assert');
+    assert = require('assert'),
+    color  = require('../color');
 
-var Color = require('../color').Color;
+var Color = color.Color;
 
 assert.colorEqual = function(color1, color2) {
   assert.deepEqual(color1.toRGB(), color2.toRGB());
 };
+
+function validCSS(bool) {
+  var context = {
+    topic: function() {
+      return this.context.name.match(/"(.*)"/)[1];
+    }
+  };
+
+  var shouldString = (bool ? 'should' : 'shouldn\'t') + ' be a valid CSS color';
+
+  context[shouldString] = function(colorString) {
+    var valid = Color.isValid(colorString);
+    assert.equal(valid, bool);
+  };
+
+  return context;
+}
 
 vows.describe('Color').addBatch({
   // Parsing:
@@ -41,6 +59,34 @@ vows.describe('Color').addBatch({
       'should be equal to \'rgba(0, 23, 42, 1)\'': function(color) {
         assert.colorEqual( color,
                            Color('rgba(0, 23, 42, 1)') );
+      }
+    },
+    'rgb( 0% , 9%, 16% )': {
+      topic: Color('rgb( 0% , 9%, 16% )'),
+      
+      'should be equal to RGB(R=0; G=0.09; B=0.16)': function(color) {
+        assert.colorEqual(color,
+                          Color({ red: 0,
+                                  green: .09,
+                                  blue: .16 }) );
+      },
+      'should be equal to \'rgba(0%,9%,16%,-.42)\'': function(color) {
+        assert.colorEqual(color,
+                          Color('rgba(0%,9%,16%,-.42)'));
+      }
+    },
+    'hsl(203, 50%, 40%)': {
+      topic: Color('hsl(203, 50%, 40%)'),
+      
+      'should be equal to HSL(H=203; S=0.5; L=40%)': function(color) {
+        assert.colorEqual( color,
+                           Color({ hue: 203,
+                                   saturation: .5,
+                                   lightness: .4 }));
+      },
+      'should be equal to \'hsla(563, 50%, 40%, 2)\'': function(color) {
+        assert.colorEqual( color,
+                           Color('hsla(563, 50%, 40%, 2)'));
       }
     },
     'darkseagreen': {
@@ -212,5 +258,30 @@ vows.describe('Color').addBatch({
                                  saturation: .5,
                                  value: .5 }) );
     }
-  }
+  },
+  '"rgb(55, 111, 222)"': validCSS(true),
+  '"rgb(2.2, 3.3, 127.3 )"': validCSS(false),
+  '"rgb(1, 2, 3, 4)"': validCSS(false),
+  '"rgb(aa, 22, 44)"': validCSS(false),
+  '"rgb(-100, 300, +137)"': validCSS(true),
+  '"rgb(100%, 50%, 30%)"': validCSS(true),
+  '"rgb(88.8%, +111%, -30%)"': validCSS(true),
+  '"rgb(2 %, 2%, 2%)"': validCSS(false),
+  '"rgb(33%, 22%, 11)"': validCSS(false),
+  '"rgba(42, 24, 42, 0)"': validCSS(true),
+  '"rgba(42, 24, 42, 1)"': validCSS(true),
+  '"rgba(42, 24, 42, 2)"': validCSS(true),
+  '"rgba(1, 2, 3)"': validCSS(false),
+  '"rgba(11, 22, 33, -.5)"': validCSS(true),
+  '"rgba(33%, 50%, )"': validCSS(false),
+  '"#f00"': validCSS(true),
+  '"f00"': validCSS(false),
+  '"#00AA00"': validCSS(true),
+  '"#00aAAA999"': validCSS(false),
+  '"hsl(300.3, 100%, 50%)"': validCSS(true),
+  '"hsl(-300.3, 110%, -50%)"': validCSS(true),
+  '"hsla(-300.3, 110%, -50%)"': validCSS(false),
+  '"hsla(-300.3, 110%, -50%, 3)"': validCSS(true),
+  '"seagreen"': validCSS(true),
+  '"transparent"': validCSS(true)
 }).export(module);
