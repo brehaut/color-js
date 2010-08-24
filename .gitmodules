@@ -1,6 +1,0 @@
-[submodule "color-js"]
-	path = color-js
-	url = http://github.com/brehaut/color-js.git
-[submodule "colortriangle"]
-	path = colortriangle
-	url = http://github.com/timjb/colortriangle.git
