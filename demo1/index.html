@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Demo 1 &ndash; getLuminance &amp; blend &middot; color-js</title>
+<meta charset=utf-8>
+<meta name=author content="Tim Baumann">
+<link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; }
+html, body {
+	height: 100%;
+}
+body {
+	font-family: "Droid Sans", sans-serif;
+}
+#wrapper {
+	width: 500px;
+	margin: 0 auto;
+}
+h1, canvas, p {
+	display: block;
+	margin: 20px 0;
+}
+p:after {
+	content: ".";
+	height: 0; line-height: 0;
+	display: block;
+	clear: both;
+	visibility: hidden;
+}
+label {
+	float: left;
+	width: 250px;
+}
+label span:after {
+	content: ":";
+}
+input {
+	width: 140px;
+}
+a {
+	color: inherit;
+}
+a:hover {
+	text-decoration: none;
+}
+</style>
+
+<body>
+<div id=wrapper>
+	<h1>Demo 1 &ndash; getLuminance &amp; blend</h1>
+	<div id=example-1></div>
+	<p id=controls>
+		<label><span>Foreground</span> <input id=color-control-1 type=color value=#be0000></label>
+		<label><span>Background</span> <input id=color-control-2 type=color value=#ffff74></label>
+	</p>
+	<p><a href=http://www.flickr.com/photos/78375210@N00/2374882108>Photo</a> by flickr user Jickel. Browser with &lt;canvas&gt;-support needed. Highly performant browser (e.g. Chrome) recommended. Color picker provided by <a href=http://github.com/timjb/colortriangle/>timjb/colortriangle</a>.</p>
+</div>
+
+<script src=../color-js/color.js></script>
+<script src=../colortriangle/colortriangle.js></script>
+<script defer async>
+(function(doc) {
+	var Color = net.brehaut.Color;
+	var color1Control, color2Control;
+	var canvas, ctx;
+	
+	var luminanceTable = [];
+	function createLuminanceTable() {
+		var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+		    data = imageData.data;
+		for(var i = 0, l = data.length; i < l; i += 4) {
+			luminanceTable.push(Color({
+				red:   data[i]   / 255,
+				green: data[i+1] / 255,
+				blue:  data[i+2] / 255
+			}).getLuminance());
+		}
+	}
+	
+	function colorImage() {
+		ctx.font = '30px "Droid Sans", sans-serif';
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillStyle = '#fff';
+		ctx.fillText('Please wait ...', canvas.width / 2, canvas.height / 2);
+		
+		setTimeout(function() {
+			var color1 = Color(color1Control.value);
+			var color2 = Color(color2Control.value);
+			var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+				data = imageData.data;
+			for(var i = 0, l = canvas.width * canvas.height; i < l; i++) {
+				var luminance = luminanceTable[i];
+				var color = color1.blend(color2, luminance);
+				data[i*4]   = Math.round(color.getRed()   * 255);
+				data[i*4+1] = Math.round(color.getGreen() * 255);
+				data[i*4+2] = Math.round(color.getBlue()  * 255);
+			}
+			ctx.putImageData(imageData, 0, 0);
+			doc.body.style.background = color2.toCSS();
+			doc.body.style.color = color1.toCSS();
+		}, 10);
+	}
+	
+	var img = new Image();
+	img.onload = function() {
+		var example1 = doc.getElementById('example-1');
+		
+		canvas = doc.createElement('canvas');
+		canvas.width = img.width;
+		canvas.height = img.height;
+		ctx = canvas.getContext('2d');
+		example1.appendChild(canvas);
+		
+		color1Control = doc.getElementById('color-control-1');
+		color2Control = doc.getElementById('color-control-2');
+		color1Control.onchange = color2Control.onchange = colorImage;
+		ColorTriangle.initColorInputs();
+		
+		ctx.drawImage(img, 0, 0);
+		createLuminanceTable();
+		colorImage();
+	};
+	img.src = 'ghost-car.jpg';
+})(document);
+</script>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Demo 2 &ndash; Color Conversion &middot; color-js</title>
+<meta charset=utf-8>
+<meta name=author content="Tim Baumann">
+<link href="http://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; }
+body {
+	font-family: Vollkorn, Palatino, Georgia, serif;
+	line-height: 24px;
+}
+#wrapper {
+	width: 500px;
+	margin: 0 auto;
+}
+h1 {
+	font-size: 36px; font-weight: normal;
+	margin: 30px 0 20px;
+}
+#input-field-wrapper {
+	text-align: center;
+}
+#input-field {
+	font-size: 1em;
+	padding: 2px 5px;
+	width: 250px;
+	margin: 0 0 20px;
+}
+#color-triangle-wrapper {
+	width: 200px;
+	float: left;
+	margin: 0 0 20px;
+}
+table {
+	float: right;
+	width: 280px;
+	border-collapse: collapse;
+	margin: 0 0 20px;
+}
+th {
+	color: #555;
+	font-weight: normal;
+	text-align: left;
+}
+td {
+	width: 40px;
+}
+th, td {
+	padding: 7px;
+	border: 1px solid #ddd;
+	font-size: .8em;
+}
+#explanation {
+	clear: both;
+	font-size: .95em;
+	color: #888;
+}
+a {
+	color: inherit;
+}
+a:hover {
+	text-decoration: none;
+}
+</style>
+
+<body>
+<div id=wrapper>
+	<h1>Demo 2 &ndash; Color Conversion</h1>
+	<div id=input-field-wrapper>
+		<input id=input-field type=color value=#be0000>
+	</div>
+	<div id=color-triangle-wrapper></div>
+	<table>
+		<tbody>
+			<tr>
+				<th><abbr title="Red, Green, Blue">RGB</abbr> Integers</th>
+				<td id=rgb-integers-r></td>
+				<td id=rgb-integers-g></td>
+				<td id=rgb-integers-b></td>
+			</tr>
+			<tr>
+				<th><abbr title="Red, Green, Blue">RGB</abbr> Percentages</th>
+				<td id=rgb-percentages-r></td>
+				<td id=rgb-percentages-g></td>
+				<td id=rgb-percentages-b></td>
+			</tr>
+			<tr>
+				<th><abbr title="Hexadecimal RGB">HEX</abbr></th>
+				<td id=hex colspan=3></td>
+			</tr>
+			<tr>
+				<th><abbr title="Hue, Saturation, Value">HSV</abbr></th>
+				<td id=hsv-h></td>
+				<td id=hsv-s></td>
+				<td id=hsv-v></td>
+			</tr>
+			<tr>
+				<th><abbr title="Hue, Saturation, Lightness">HSL</abbr></th>
+				<td id=hsl-h></td>
+				<td id=hsl-s></td>
+				<td id=hsl-l></td>
+			</tr>
+		</tbody>
+	</table>
+	<p id=explanation>Enter any valid CSS Color in the input field. You can use hex colors (#339, #322233), rgb(a) colors (rgb(233, 200, 0), rgba(55%, 100%, 0%, 1)) and hsl(a) colors (hsl(350, 100%, 50%)). Color picker by <a href=http://github.com/timjb/colortriangle/>timjb/colortriangle</a>.</p>
+</div>
+
+<script src=../color-js/color.js></script>
+<script src=../colortriangle/colortriangle.js></script>
+<script defer async>
+(function(doc) {
+	var Color = net.brehaut.Color;
+	
+	function round(val, precision) {
+		precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0);
+		return Math.round(val * precision) / precision;
+	}
+	function id(id) {
+		return doc.getElementById(id);
+	}
+	function replace_content(_id, content) {
+		var element = id(_id);
+		while(element.firstChild) {
+			element.removeChild(element.firstChild);
+		}
+		element.appendChild(doc.createTextNode(content));
+	}
+	function showColor() {
+		var color = Color(inputField.value);
+		h1.style.color = color.toCSS();
+		replace_content('rgb-integers-r', 'test');
+		replace_content('rgb-integers-r', round(color.getRed()   * 255));
+		replace_content('rgb-integers-g', round(color.getGreen() * 255));
+		replace_content('rgb-integers-b', round(color.getBlue()  * 255));
+		replace_content('rgb-percentages-r', round(color.getRed()   * 100, 1) + '%');
+		replace_content('rgb-percentages-g', round(color.getGreen() * 100, 1) + '%');
+		replace_content('rgb-percentages-b', round(color.getBlue()  * 100, 1) + '%');
+		replace_content('hex', color.toCSS());
+		replace_content('hsv-h', round(color.getHue(), 0) % 360);
+		replace_content('hsv-s', round(color.toHSV().getSaturation(), 2));
+		replace_content('hsv-v', round(color.getValue(), 2));
+		replace_content('hsl-h', round(color.getHue(), 0) % 360);
+		replace_content('hsl-s', round(color.toHSL().getSaturation(), 2));
+		replace_content('hsl-l', round(color.getLightness(), 2));
+		return color;
+	}
+	
+	var h1 = doc.getElementsByTagName('h1')[0];
+	var inputField = id('input-field');
+	inputField.addEventListener('keyup', function() {
+		if(Color.isValid(inputField.value)) {
+			var color = showColor();
+			colorTriangle.setHEX(color.toCSS());
+		}
+	}, false);
+	
+	var colorTriangle = new ColorTriangle(inputField.value, {
+		size: 200,
+		padding: 0
+	});
+	colorTriangle.addEventListener('drag', function() {
+		inputField.value = colorTriangle.getHEX();
+		showColor();
+	});
+	colorTriangle.inject(id('color-triangle-wrapper'));
+	
+	showColor();
+})(document);
+</script>
