@@ -721,7 +721,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       var l = 2 * this.lightness,
           s = this.saturation * ((l <= 1) ? l : 2 - l);
       hsv.value = (l + s) / 2; // V
-      hsv.saturation = (2 * s) / (l + s); // S
+      hsv.saturation = ((2 * s) / (l + s)) || 0; // S
       
       return hsv;
     },
