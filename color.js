@@ -385,37 +385,31 @@ if (!net.brehaut) { net.brehaut = {}; }
     
     toHSV: function ( ) {
       var hsv = factories.HSV();
-    	var min, max, delta;
+      var min, max, delta;
 
       min = Math.min(this.red, this.green, this.blue);
       max = Math.max(this.red, this.green, this.blue);
-      hsv.value = max;				// v
+      hsv.value = max; // v
 
       delta = max - min;
 
-      if( max !== 0 ) {
-        hsv.saturation = delta / max;		// s
+      if( delta == 0 ) { // white, grey, black
+        hsv.hue = hsv.saturation = 0;
       }
-      else {
-        // r = g = b = 0		// s = 0, v is undefined
-        hsv.saturation = 0;
-        hsv.hue = -1;
-        return hsv;
-      }
+      else { // chroma
+        hsv.saturation = delta / max;
 
-      if( this.red == max ) {
-        hsv.hue = ( this.green - this.blue ) / delta;		// between yellow & magenta
-      }
-      else if( this.green  == max ) {
-        hsv.hue = 2 + ( this.blue - this.red ) / delta;	// between cyan & yellow
-      }
-      else {
-        hsv.hue = 4 + ( this.red - this.green ) / delta;	// between magenta & cyan
-      }
+        if( this.red == max ) {
+          hsv.hue = ( this.green - this.blue ) / delta; // between yellow & magenta
+        }
+        else if( this.green  == max ) {
+          hsv.hue = 2 + ( this.blue - this.red ) / delta; // between cyan & yellow
+        }
+        else {
+          hsv.hue = 4 + ( this.red - this.green ) / delta; // between magenta & cyan
+        }
 
-      hsv.hue *= 60;				// degrees
-      if( hsv.hue < 0 ) {
-        hsv.hue += 360;
+        hsv.hue = ((hsv.hue * 60) + 360) % 360; // degrees
       }
       
       return hsv;
