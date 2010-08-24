@@ -644,7 +644,9 @@ if (!net.brehaut) { net.brehaut = {}; }
       hsl.hue = this.hue;
       var l = (2 - this.saturation) * this.value,
           s = this.saturation * this.value;
-      s /= (l <= 1) ? l : 2 - l;
+      if(l && 2 - l) {
+        s /= (l <= 1) ? l : 2 - l;
+      }
       l /= 2;
       hsl.saturation = s;
       hsl.lightness = l;
