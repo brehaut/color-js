@@ -1,4 +1,4 @@
-// Copyright (c) 2008, Andrew Brehaut, Tim Baumann
+// Copyright (c) 2008-2010, Andrew Brehaut, Tim Baumann, Matt Wilson
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
