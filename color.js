@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010, Andrew Brehaut, Tim Baumann, Matt Wilson
+// Copyright (c) 2008-2013, Andrew Brehaut, Tim Baumann, Matt Wilson
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without
@@ -22,7 +22,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 // POSSIBILITY OF SUCH DAMAGE.
 
-// color.js - version 0.4
+// color.js - version 0.5
 //
 // HSV <-> RGB code based on code from http://www.cs.rit.edu/~ncs/color/t_convert.html
 // object function created by Douglas Crockford.

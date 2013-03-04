@@ -65,6 +65,10 @@ The following methods all return a new color.
  * `darkenByRatio( ratio )` : Color
  * `lightenByAmount( amount )` : Color
  * `lightenByRatio( amount )` : Color
+ * `devalueByAmount( amount )` : Color
+ * `devalueByRatio( ratio )` : Color
+ * `valueByAmount( amount )` : Color
+ * `valueByRatio( amount )` : Color
  * `desaturateByAmount( amount )` : Color
  * `desaturateByRatio( ratio )` : Color
  * `saturateByAmount( amount )` : Color
@@ -113,6 +117,15 @@ With regard to programmatic style, Douglas Crockfords 'just the good parts' appr
 # Changes
 
 <dl>
+  <dt><em>March 4, 2013</em></dt>
+  <dd>Version 0.5
+    <ul>
+      <li>Fixes bug where <code>lightenBy…/darkenBy…</code> used <code>value</code> property from <code>HSV</code> model, despite <code>HSL</code> now being supported.</li>
+      <li><code>valueBy…/devalueBy…</code> methods added. These behave like the old <code>lightenBy…/darkenBy…</code> methods.</li>
+      <li>Module function now uses strict mode.</li> 
+    </ul>
+  </dd>
+    
   <dt><em>July 24, 2010</em></dt>
   <dd>Version 0.4
     <ul>
