@@ -205,25 +205,26 @@ vows.describe('Color').addBatch({
     topic: Color({ hue: 90,
                    saturation: .5,
                    value: .5 }),
-    'lightened by 1000% should be equal to HSV(H=90; S=0.5; V=1)': function(color) {
-      assert.colorEqual(color.lightenByRatio(10), Color({ hue: 90,
-                                                          saturation: .5,
-                                                          value: 1 }));
+    'increase value by 1000% should be equal to HSV(H=90; S=0.5; V=1)': function(color) {
+      assert.colorEqual( color.valueByRatio(10), 
+                         Color({ hue: 90,
+                                 saturation: .5,
+                                 value: 1 }));
     },
-    'lightened by 0.1 should be equal to HSV(H=90; S=0.5; V=0.6)': function(color) {
-      assert.colorEqual( color.lightenByAmount(.1),
+    'increase value by 0.1 should be equal to HSV(H=90; S=0.5; V=0.6)': function(color) {
+      assert.colorEqual( color.valueByAmount(.1),
                          Color({ hue: 90,
                                  saturation: .5,
                                  value: .6 }) );
     },
-    'darkened by 50% should be equal to HSV(H=90; S=0.5; V=0.25)': function(color) {
-      assert.colorEqual( color.darkenByRatio(.5),
+    'devalue by 50% should be equal to HSV(H=90; S=0.5; V=0.25)': function(color) {
+      assert.colorEqual( color.devalueByRatio(.5),
                          Color({ hue: 90,
                                  saturation: .5,
                                  value: .25 }) );
     },
-    'darkened by 2.3 should be equal to HSV(H=90; S=0.5; V=0)': function(color) {
-      assert.colorEqual( color.darkenByAmount(2.3),
+    'devalue by 2.3 should be equal to HSV(H=90; S=0.5; V=0)': function(color) {
+      assert.colorEqual( color.devalueByAmount(2.3),
                          Color({ hue: 90,
                                  saturation: .5,
                                  value: 0 }) );

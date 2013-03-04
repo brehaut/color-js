@@ -37,6 +37,7 @@ if (!net.brehaut) { net.brehaut = {}; }
 
 // this module function is called with net.brehaut as 'this'
 (function ( ) {
+  "use strict";
   // Constants
   
   // css_colors maps color names onto their hex values
@@ -443,19 +444,19 @@ if (!net.brehaut) { net.brehaut = {}; }
       this.hue = hue;
     }),
     
-    darkenByAmount: cloneOnApply(function ( val ) {
+    devalueByAmount: cloneOnApply(function ( val ) {
       this.value = Math.min(1, Math.max(this.value - val, 0));
     }),
     
-    darkenByRatio: cloneOnApply(function ( val ) {
+    devalueByRatio: cloneOnApply(function ( val ) {
       this.value = Math.min(1, Math.max(this.value * (1 - val), 0));
     }),
     
-    lightenByAmount: cloneOnApply(function ( val ) {
+    valueByAmount: cloneOnApply(function ( val ) {
       this.value = Math.min(1, Math.max(this.value + val, 0));
     }),
     
-    lightenByRatio: cloneOnApply(function ( val ) {
+    valueByRatio: cloneOnApply(function ( val ) {
       this.value = Math.min(1, Math.max(this.value * (1 + val), 0));
     }),
     
@@ -663,6 +664,22 @@ if (!net.brehaut) { net.brehaut = {}; }
     hue: 0,
     saturation: 0,
     lightness: 0,
+    
+    darkenByAmount: cloneOnApply(function ( val ) {
+      this.lightness = Math.min(1, Math.max(this.lightness - val, 0));
+    }),
+    
+    darkenByRatio: cloneOnApply(function ( val ) {
+      this.lightness = Math.min(1, Math.max(this.lightness * (1 - val), 0));
+    }),
+    
+    lightenByAmount: cloneOnApply(function ( val ) {
+      this.lightness = Math.min(1, Math.max(this.lightness + val, 0));
+    }),
+    
+    lightenByRatio: cloneOnApply(function ( val ) {
+      this.lightness = Math.min(1, Math.max(this.lightness * (1 + val), 0));
+    }),
     
     fromObject: function ( o ) {
       if ("string" == typeof o) {
