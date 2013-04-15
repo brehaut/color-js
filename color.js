@@ -31,7 +31,7 @@
 // HSL support kindly provided by Tim Baumann - http://github.com/timjb
 
 // create namespaces
-/*global net */
+/*global net module */
 if ("undefined" == typeof net) { var net = {}; }
 if (!net.brehaut) { net.brehaut = {}; }
 
@@ -383,18 +383,9 @@ if (!net.brehaut) { net.brehaut = {}; }
       return newRGB;
     },
 
-    // convert to a CSS string. defaults to two bytes a value
+    // convert to a "rgb()" CSS string. defaults to two bytes a value
     toCSS: function ( bytes ) {
-      bytes = bytes || 2;
-      var max = Math.pow(16, bytes) - 1;
-      var css = [
-        "#",
-        pad ( Math.round(this.red * max).toString( 16 ).toUpperCase(), bytes ),
-        pad ( Math.round(this.green * max).toString( 16 ).toUpperCase(), bytes ),
-        pad ( Math.round(this.blue * max).toString( 16 ).toUpperCase(), bytes )
-      ];
-
-      return css.join('');
+      return 'rgb(' +  Math.round(this.red) + ', ' +  Math.round(this.green) + ', ' +  Math.round(this.blue) + ')';
     },
 
     toHSV: function ( ) {
@@ -407,7 +398,7 @@ if (!net.brehaut) { net.brehaut = {}; }
 
       delta = max - min;
 
-      if( delta == 0 ) { // white, grey, black
+      if( delta === 0 ) { // white, grey, black
         hsv.hue = hsv.saturation = 0;
       }
       else { // chroma
@@ -608,9 +599,9 @@ if (!net.brehaut) { net.brehaut = {}; }
         return rgb;
       }
 
-      var h = this.hue / 60;			// sector 0 to 5
+      var h = this.hue / 60;      // sector 0 to 5
       i = Math.floor( h );
-      f = h - i;			// factorial part of h
+      f = h - i;      // factorial part of h
       p = this.value * ( 1 - this.saturation );
       q = this.value * ( 1 - this.saturation * f );
       t = this.value * ( 1 - this.saturation * ( 1 - f ) );
@@ -641,7 +632,7 @@ if (!net.brehaut) { net.brehaut = {}; }
           rgb.green = p;
           rgb.blue = this.value;
           break;
-        default:		// case 5:
+        default:    // case 5:
           rgb.red = this.value;
           rgb.green = p;
           rgb.blue = q;
@@ -768,10 +759,10 @@ if (!net.brehaut) { net.brehaut = {}; }
     return color.fromObject( o );
   }
   Color.isValid = function( str ) {
-    var c = Color( str );
+    var c = new Color( str );
 
     var length = 0;
-    for(key in c) {
+    for(var key in c) {
       if(c.hasOwnProperty(key)) {
         length++;
       }
