@@ -20,6 +20,7 @@ Color will create a new object for you from an object or string. Note that this 
     var Blue = Color("rgb(0,0,255)");
     var Cyan = Color({hue: 180, saturation: 1, lightness: 0.5});
     var Magenta = Color("hsl(300, 100%, 50%)");
+    var Yellow = Color([255,255,0]);
 
 Each method on color either returns a new color (or set of colors) or returns a value. You can chain manipulation methods together as much as you need. Eg
 
@@ -99,7 +100,7 @@ The following methods return a list of colors
 
 ### Conversion and Construction
 
- * `fromObject( o )` : Color --- `o` is an object with values from a color model or a css  string.
+ * `fromObject( o )` : Color --- `o` is an object with values from a color model, a css string, or an RGB array.
  * `toCSS([bytesPerChannel])` : String --- css hexdecimal representation. `bytesPerChannel` defaults to 2
  * `toString()` : String --- returns CSS representation
  * `toHSV()` : Color
@@ -117,6 +118,13 @@ With regard to programmatic style, Douglas Crockfords 'just the good parts' appr
 # Changes
 
 <dl>
+  <dt><em>April 16, 2013</em></dt>
+  <dd>Version 0.6
+    <ul>
+      <li>fromArray RGB factory added. This factory takes an array of three RGB values as ints from 0-255.</li>
+   </ul>
+</dd>    
+    
   <dt><em>March 4, 2013</em></dt>
   <dd>Version 0.5
     <ul>

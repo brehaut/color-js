@@ -22,7 +22,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// color.js - version 0.5
+// color.js - version 0.6
 //
 // HSV <-> RGB code based on code from http://www.cs.rit.edu/~ncs/color/t_convert.html
 // object function created by Douglas Crockford.
@@ -376,9 +376,9 @@ if (!net.brehaut) { net.brehaut = {}; }
     _fromRGBArray: function ( RGB ) {
       var newRGB = factories.RGB();
 
-      newRGB.red = RGB[0];
-      newRGB.green = RGB[1];
-      newRGB.blue = RGB[2];
+      newRGB.red = Math.max(0, Math.min(1, RGB[0] / 255));
+      newRGB.green = Math.max(0, Math.min(1, RGB[1] / 255));
+      newRGB.blue = Math.max(0, Math.min(1, RGB[2] / 255));
 
       return newRGB;
     },
