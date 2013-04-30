@@ -276,11 +276,12 @@ if (!net.brehaut) { net.brehaut = {}; }
     blend: function ( color , alpha ) {
       color = color.toRGB();
       alpha = Math.min(Math.max(alpha, 0), 1);
-      var rgb = this.clone();
+      var rgb = this.clone();     
 
       rgb.red = (rgb.red * (1 - alpha)) + (color.red * alpha);
       rgb.green = (rgb.green * (1 - alpha)) + (color.green * alpha);
       rgb.blue = (rgb.blue * (1 - alpha)) + (color.blue * alpha);
+      rgb.alpha = (rgb.alpha * (1 - alpha)) + (color.alpha * alpha);
 
       return rgb;
     },
@@ -396,19 +397,35 @@ if (!net.brehaut) { net.brehaut = {}; }
     },
 
     // convert to a CSS string. defaults to two bytes a value
+    toCSSHex: function ( bytes ) {
+        bytes = bytes || 2;
+
+        var max = Math.pow(16, bytes) - 1;
+        var css = [
+          "#",
+          pad ( Math.round(this.red * max).toString( 16 ).toUpperCase(), bytes ),
+          pad ( Math.round(this.green * max).toString( 16 ).toUpperCase(), bytes ),
+          pad ( Math.round(this.blue * max).toString( 16 ).toUpperCase(), bytes )
+        ];
+
+        return css.join('');
+    },    
+    
     toCSS: function ( bytes ) {
-      bytes = bytes || 2;
-      var max = Math.pow(16, bytes) - 1;
-      var css = [
-        "#",
-        pad ( Math.round(this.red * max).toString( 16 ).toUpperCase(), bytes ),
-        pad ( Math.round(this.green * max).toString( 16 ).toUpperCase(), bytes ),
-        pad ( Math.round(this.blue * max).toString( 16 ).toUpperCase(), bytes )
+      if (this.alpha === 1) return this.toCSSHex(bytes); 
+
+      var max = 255;
+      
+      var components = [
+        'rgba(',
+        Math.max(0, Math.min(max, this.red * max)), ',',
+        Math.max(0, Math.min(max, this.green * max)), ',', 
+        Math.max(0, Math.min(max, this.blue * max)), ',',
+        Math.max(0, Math.min(1, this.alpha)), ',',
+        ')'
       ];
 
-      // TODO: Include some support vor 8digit IE Transparency Hexcodes?
-
-      return css.join('');
+      return components.join('');
     },
 
     toHSV: function ( ) {
