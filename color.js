@@ -56,13 +56,13 @@ if (!net.brehaut) { net.brehaut = {}; }
 
   // http://www.w3.org/TR/2003/CR-css3-color-20030514/
   var hsl_hsla_regex = new RegExp([
-    '^hsl(a?)\\(', css_number, ',', css_percentage, ',', css_percentage, '(,', css_number, ')?\\)$'
+    '^hsl(a?)\\(', css_number, ',', css_percentage, ',', css_percentage, '(,(', css_number, '))?\\)$'
   ].join(css_whitespace) );
   var rgb_rgba_integer_regex = new RegExp([
-    '^rgb(a?)\\(', css_integer, ',', css_integer, ',', css_integer, '(,', css_number, ')?\\)$'
+    '^rgb(a?)\\(', css_integer, ',', css_integer, ',', css_integer, '(,(', css_number, '))?\\)$'
   ].join(css_whitespace) );
   var rgb_rgba_percentage_regex = new RegExp([
-    '^rgb(a?)\\(', css_percentage, ',', css_percentage, ',', css_percentage, '(,', css_number, ')?\\)$'
+    '^rgb(a?)\\(', css_percentage, ',', css_percentage, ',', css_percentage, '(,(', css_number, '))?\\)$'
   ].join(css_whitespace) );
 
   // Package wide variables
@@ -259,6 +259,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     red:    0,
     green:  0,
     blue:   0,
+    alpha:  0,
 
     /* getLuminance returns a value between 0 and 1, this is the
      * luminance calcuated according to
@@ -326,6 +327,7 @@ if (!net.brehaut) { net.brehaut = {}; }
             rgb.red   = Math.min(1, Math.max(0, colorGroups[2] / max_value));
             rgb.green = Math.min(1, Math.max(0, colorGroups[3] / max_value));
             rgb.blue  = Math.min(1, Math.max(0, colorGroups[4] / max_value));
+            rgb.alpha = !!colorGroups[5] ? Math.min(Math.max(parseFloat(colorGroups[6]), 0), 1) : 1;
 
             return rgb;
           }
@@ -351,6 +353,7 @@ if (!net.brehaut) { net.brehaut = {}; }
             rgb.red =   parseInt(css.slice(0, bytes), 16) / max;
             rgb.green = parseInt(css.slice(bytes * 1,bytes * 2), 16) / max;
             rgb.blue =  parseInt(css.slice(bytes * 2), 16) / max;
+            rgb.alpha = 1;
             return rgb;
         }
     ],
@@ -369,6 +372,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       newRGB.red = RGB.red;
       newRGB.green = RGB.green;
       newRGB.blue = RGB.blue;
+      newRGB.alpha = RGB.hasOwnProperty('alpha') ? RGB.alpha : 1;
 
       return newRGB;
     },
@@ -379,6 +383,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       newRGB.red = Math.max(0, Math.min(1, RGB[0] / 255));
       newRGB.green = Math.max(0, Math.min(1, RGB[1] / 255));
       newRGB.blue = Math.max(0, Math.min(1, RGB[2] / 255));
+      newRGB.alpha = RGB[3] !== undefined ? Math.max(0, Math.min(1, RGB[3])) : 1;
 
       return newRGB;
     },
@@ -393,6 +398,8 @@ if (!net.brehaut) { net.brehaut = {}; }
         pad ( Math.round(this.green * max).toString( 16 ).toUpperCase(), bytes ),
         pad ( Math.round(this.blue * max).toString( 16 ).toUpperCase(), bytes )
       ];
+
+      // TODO: Include some support vor 8digit IE Transparency Hexcodes?
 
       return css.join('');
     },
@@ -426,6 +433,8 @@ if (!net.brehaut) { net.brehaut = {}; }
         hsv.hue = ((hsv.hue * 60) + 360) % 360; // degrees
       }
 
+      hsv.alpha = this.alpha;
+
       return hsv;
     },
     toHSL: function ( ) {
@@ -447,6 +456,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     hue: 0,
     saturation: 0,
     value: 1,
+    alpha: 1,
 
     shiftHue: cloneOnApply(function ( degrees ) {
       var hue = (this.hue + degrees) % 360;
@@ -580,10 +590,11 @@ if (!net.brehaut) { net.brehaut = {}; }
         hsv.hue = o.hue;
         hsv.saturation = o.saturation;
         hsv.value = o.value;
+        hsv.alpha = o.hasOwnProperty('alpha') ? o.alpha : 1;
 
         return hsv;
       }
-      // nothing matchs, not an HSV object
+      // nothing matches, not an HSV object
       return null;
     },
 
@@ -591,6 +602,7 @@ if (!net.brehaut) { net.brehaut = {}; }
        this.hue %= 360;
        this.saturation = Math.min(Math.max(0, this.saturation), 1);
        this.value = Math.min(Math.max(0, this.value));
+       this.alpha = Math.min(1, Math.max(0, this.alpha));
     },
 
     toRGB: function ( ) {
@@ -648,6 +660,8 @@ if (!net.brehaut) { net.brehaut = {}; }
           break;
       }
 
+      rgb.alpha = this.alpha;
+
       return rgb;
     },
     toHSL: function() {
@@ -664,6 +678,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       l /= 2;
       hsl.saturation = s;
       hsl.lightness = l;
+      hsl.alpha = this.alpha;
 
       return hsl;
     },
@@ -677,6 +692,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     hue: 0,
     saturation: 0,
     lightness: 0,
+    alpha: 1,
 
     darkenByAmount: cloneOnApply(function ( val ) {
       this.lightness = Math.min(1, Math.max(this.lightness - val, 0));
@@ -718,6 +734,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       hsl.hue        = (colorGroups[2] % 360 + 360) % 360;
       hsl.saturation = Math.max(0, Math.min(parseInt(colorGroups[3], 10) / 100, 1));
       hsl.lightness  = Math.max(0, Math.min(parseInt(colorGroups[4], 10) / 100, 1));
+      hsl.alpha      = !!colorGroups[5] ? Math.max(0, Math.min(1, parseFloat(colorGroups[6]))) : 1;
 
       return hsl;
     },
@@ -729,6 +746,8 @@ if (!net.brehaut) { net.brehaut = {}; }
       newHSL.saturation = HSL.saturation;
       newHSL.lightness = HSL.lightness;
 
+      newHSL.alpha = HSL.hasOwnProperty('alpha') ? HSL.alpha : 1;
+
       return newHSL;
     },
 
@@ -736,6 +755,7 @@ if (!net.brehaut) { net.brehaut = {}; }
        this.hue = (this.hue % 360 + 360) % 360;
        this.saturation = Math.min(Math.max(0, this.saturation), 1);
        this.lightness = Math.min(Math.max(0, this.lightness));
+       this.alpha = Math.min(1, Math.max(0, this.alpha));
     },
 
     toHSL: function() {
@@ -752,6 +772,7 @@ if (!net.brehaut) { net.brehaut = {}; }
           s = this.saturation * ((l <= 1) ? l : 2 - l);
       hsv.value = (l + s) / 2; // V
       hsv.saturation = ((2 * s) / (l + s)) || 0; // S
+      hsv.alpha = this.alpha;
 
       return hsv;
     },
@@ -768,7 +789,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     return color.fromObject( o );
   }
   Color.isValid = function( str ) {
-    var c = Color( str );
+    var key, c = Color( str );
 
     var length = 0;
     for(key in c) {

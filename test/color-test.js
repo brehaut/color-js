@@ -31,30 +31,33 @@ vows.describe('Color').addBatch({
     '#f00': {
       topic: Color('#f00'),
       
-      'should be equal to RGB(R=1; G=0; B=0)': function(color) {
+      'should be equal to RGB(R=1; G=0; B=0; ALPHA=1)': function(color) {
         assert.colorEqual( color,
                            Color({ red: 1,
                                    green: 0,
-                                   blue: 0 }) );
+                                   blue: 0,
+                                   alpha: 1 }) );
       }
     },
     '#f0f000': {
       topic: Color('#f0f000'),
-      'should be equal to RGB(R=240/255; G=240/255; B=0)': function(color) {
+      'should be equal to RGB(R=240/255; G=240/255; B=0; ALPHA=1)': function(color) {
         assert.colorEqual( color,
                            Color({ red: 240/255,
                                    green: 240/255,
-                                   blue: 0 }) );
+                                   blue: 0,
+                                   alpha: 1 }) );
       }
     },
     'rgb(0, 23, 42)': {
       topic: Color('rgb(0, 23, 42)'),
       
-      'should be equal to RGB(R=0; G=23/255; B=42/255)': function(color) {
+      'should be equal to RGB(R=0; G=23/255; B=42/255; ALPHA=1)': function(color) {
         assert.colorEqual( color,
                            Color({ red: 0,
                                    green: 23/255,
-                                   blue: 42/255 }) );
+                                   blue: 42/255,
+                                   alpha: 1 }) );
       },
       'should be equal to \'rgba(0, 23, 42, 1)\'': function(color) {
         assert.colorEqual( color,
@@ -64,29 +67,53 @@ vows.describe('Color').addBatch({
     'rgb( 0% , 9%, 16% )': {
       topic: Color('rgb( 0% , 9%, 16% )'),
       
-      'should be equal to RGB(R=0; G=0.09; B=0.16)': function(color) {
+      'should be equal to RGB(R=0; G=0.09; B=0.16; ALPHA=1)': function(color) {
         assert.colorEqual(color,
                           Color({ red: 0,
                                   green: .09,
-                                  blue: .16 }) );
+                                  blue: .16,
+                                  alpha: 1 }) );
       },
-      'should be equal to \'rgba(0%,9%,16%,-.42)\'': function(color) {
+      'should be equal to \'rgba(0%,9%,16%,1)\'': function(color) {
         assert.colorEqual(color,
-                          Color('rgba(0%,9%,16%,-.42)'));
+                          Color('rgba(0%,9%,16%,1)'));
+      }
+    },
+    'rgba( 255, 0, 0, .45 )': {
+      topic: Color('rgba( 255, 0, 0, .45 )'),
+
+      'should be equal to RGB(R=1; G=0: B=0; ALPHA=0.45)': function (color) {
+        assert.colorEqual(color,
+                          Color({ red: 1,
+                                  green: 0,
+                                  blue: 0,
+                                  alpha: .45 }) );
       }
     },
     'hsl(203, 50%, 40%)': {
       topic: Color('hsl(203, 50%, 40%)'),
       
-      'should be equal to HSL(H=203; S=0.5; L=40%)': function(color) {
+      'should be equal to HSL(H=203; S=0.5; L=40%; ALPHA=1)': function(color) {
         assert.colorEqual( color,
                            Color({ hue: 203,
                                    saturation: .5,
-                                   lightness: .4 }));
+                                   lightness: .4,
+                                   alpha: 1 }));
       },
       'should be equal to \'hsla(563, 50%, 40%, 2)\'': function(color) {
         assert.colorEqual( color,
                            Color('hsla(563, 50%, 40%, 2)'));
+      }
+    },
+    'hsla(203, 50%, 40%, .48)': {
+      topic: Color('hsla(203, 50%, 40%, .48)'),
+      
+      'should be equal to HSL(H=203; S=0.5; L=40%; ALPHA=0.48)': function(color) {
+        assert.colorEqual( color,
+                           Color({ hue: 203,
+                                   saturation: .5,
+                                   lightness: .4,
+                                   alpha: .48 }));
       }
     },
     'darkseagreen': {
@@ -101,57 +128,67 @@ vows.describe('Color').addBatch({
     }
   },
   // Conversion:
-  'An RGB color (R=1; G=0.5; B=0)': {
+  'An RGB color (R=1; G=0.5; B=0; ALPHA=.49)': {
     topic: Color({ red: 1,
                    green: .5,
-                   blue: 0 }),
+                   blue: 0,
+                   alpha: .49 }),
     
-    'converted to HSV should be equal to HSV(H=30; S=1; V=1)': function(color) {
+    'converted to HSV should be equal to HSV(H=30; S=1; V=1; ALPHA=0.49)': function(color) {
       assert.deepEqual(color.toHSV(), Color({ hue: 30,
                                               saturation: 1,
-                                              value: 1 }));
+                                              value: 1,
+                                              alpha: .49 }));
     },
-    'converted to HSL should be equal to HSL(H=30; S=1; L=0.5)': function(color) {
+    'converted to HSL should be equal to HSL(H=30; S=1; L=0.5; ALPHA=0.49)': function(color) {
       assert.deepEqual( color.toHSL(), Color({ hue: 30,
                                                saturation: 1,
-                                               lightness: .5 }) );
+                                               lightness: .5,
+                                               alpha: .49 }) );
     }
   },
-  'A HSV color (H=180; S=1; V=0.5)': {
+  'A HSV color (H=180; S=1; V=0.5; ALPHA=0.69)': {
     topic: Color({ hue: 180,
                    saturation: 1,
-                   value: .5 }),
+                   value: .5,
+                   alpha: .69 }),
     
-    'converted to RGB should be equal to RGB(R=0; G=0.5; B=0.5)': function(color) {
+    'converted to RGB should be equal to RGB(R=0; G=0.5; B=0.5; ALPHA=0.69)': function(color) {
       assert.deepEqual(color.toRGB(), Color({ red: 0,
                                               green: .5,
-                                              blue: .5 }));
+                                              blue: .5,
+                                              alpha: .69 }));
     },
-    'converted to HSL should be equal to HSL(H=180; S=1; L=0.25)': function(color) {
+    'converted to HSL should be equal to HSL(H=180; S=1; L=0.25; ALPHA=0.69)': function(color) {
       assert.deepEqual( color.toHSL(), Color({ hue: 180,
                                                saturation: 1,
-                                               lightness: .25 }) );
+                                               lightness: .25,
+                                               alpha: .69 }) );
     }
   },
-  'A HSL color (H=0; S=0.25; L=0.25)': {
+  'A HSL color (H=0; S=0.25; L=0.25; ALPHA=0.81)': {
     topic: Color({ hue: 0,
                    saturation: .25,
-                   lightness: .25 }),
-    'converted to RGB should be equal to RGB(R=0.3125; G=0.1875; B=0.1875)': function(color) {
+                   lightness: .25,
+                   alpha: .81 }),
+    'converted to RGB should be equal to RGB(R=0.3125; G=0.1875; B=0.1875; ALPHA=0.81)': function(color) {
       assert.deepEqual( color.toRGB(), Color({ red: .3125,
                                                green: .1875,
-                                               blue: .1875 }) );
+                                               blue: .1875,
+                                               alpha: .81 }) );
     },
-    'converted to HSV should be equal to HSV(H=0; S=0.4; V=0.3125)': function(color) {
+    'converted to HSV should be equal to HSV(H=0; S=0.4; V=0.3125; ALPHA=0.81)': function(color) {
       assert.deepEqual( color.toHSV(), Color({ hue: 0,
                                                saturation: .4,
-                                               value: .3125 }) );
+                                               value: .3125,
+                                               alpha: .81 }) );
     }
   },
-  'Converting RGB(R=0.75; G=0.75; B=0.75) to a hex string': {
+  'Converting RGB(R=0.75; G=0.75; B=0.75; ALPHA=.45) to a hex string': {
     topic: Color({ red: .75,
                    green: .75,
-                   blue: .75 }).toCSS(),
+                   blue: .75,
+                   alpha: .45 }).toCSS(),
     
     'should result in the string \'#BFBFBF\'': function(cssColor) {
       assert.equal(cssColor, '#BFBFBF');
