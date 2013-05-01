@@ -420,10 +420,10 @@ if (!net.brehaut) { net.brehaut = {}; }
       
       var components = [
         'rgba(',
-        Math.max(0, Math.min(max, this.red * max)), ',',
-        Math.max(0, Math.min(max, this.green * max)), ',', 
-        Math.max(0, Math.min(max, this.blue * max)), ',',
-        Math.max(0, Math.min(1, this.alpha)), ',',
+        Math.max(0, Math.min(max, Math.round(this.red * max))), ',',
+        Math.max(0, Math.min(max, Math.round(this.green * max))), ',', 
+        Math.max(0, Math.min(max, Math.round(this.blue * max))), ',',
+        Math.max(0, Math.min(1, this.alpha)), 
         ')'
       ];
 

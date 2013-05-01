@@ -191,7 +191,7 @@ vows.describe('Color').addBatch({
                    alpha: .45 }).toCSS(),
     
     'should result in the string \'#BFBFBF\'': function(cssColor) {
-      assert.equal(cssColor, '#BFBFBF');
+      assert.equal(cssColor, 'rgba(191,191,191,0.45)');
     }
   },
   'A color RGB (R=0; G=1; B=0) blended with 60% RGB(R=0; G=0; B=1)': {
