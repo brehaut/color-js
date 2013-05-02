@@ -24,7 +24,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// color.js - version 1.0
+// color.js - version 1.0.1
 //
 // HSV <-> RGB code based on code from http://www.cs.rit.edu/~ncs/color/t_convert.html
 // object function created by Douglas Crockford.
