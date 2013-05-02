@@ -645,6 +645,7 @@ if (!net.brehaut) { net.brehaut = {}; }
         rgb.red = this.value;
         rgb.green = this.value;
         rgb.blue = this.value;
+        rgb.alpha = this.alpha;
         return rgb;
       }
 
