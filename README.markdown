@@ -112,6 +112,10 @@ The following methods return a list of colors
  * `toRGB()` : Color
  * `toHSL()` : Color
 
+## Type definitions
+
+Users of [TypeScript](http://typescriptlang.org/) can find type definitions in `color-typed.ts`.
+
 # Library design notes
 
 This library has been designed for correctness and with ease of use in mind. With regard to ease of use, `Color` objects allow you to chain operations by returning a new object each time. These operations involve common modification to the values in the object by a value or by a ratio where suitable, and automatically convert to the appropriate color model as required. 
