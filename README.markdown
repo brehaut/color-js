@@ -114,7 +114,7 @@ The following methods return a list of colors
 
 ## Type definitions
 
-Users of [TypeScript](http://typescriptlang.org/) can find type definitions in `color-typed.ts`.
+Users of [TypeScript](http://typescriptlang.org/) can find type definitions in `color.d.ts`.
 
 # Library design notes
 
