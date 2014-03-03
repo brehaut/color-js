@@ -1,5 +1,5 @@
 <script language="javascript" src="https://raw.github.com/brehaut/color-js/master/color.js"></script>
-<a href="http://media.brehaut.net/files/color.js">Color.js</a> provides an API to do simple color management in javascript. Color objects provide methods to do a number of common, useful operations independent of the underlying color model they need. 
+<a href="https://raw.github.com/brehaut/color-js/master/color.js">Color.js</a> provides an API to do simple color management in javascript. Color objects provide methods to do a number of common, useful operations independent of the underlying color model they need. 
 
 The library supports RGB, HSV and HSL color models, along with alpha channel on all of them. CSS string representations of colors are supported for convenience. If you need colorspace management that correlates to human perception rather than display technology, [colorspace.js](http://boronine.com/colorspaces.js/) looks like an excellent library.
 
@@ -186,8 +186,4 @@ Internally theres a bit of metaprogramming soup to make it easier to define colo
 </dl>
 </dl>
 
-<script language="javascript" src="http://media.brehaut.net/contrib/json2.js"></script>
-<script language="javascript" src="http://media.brehaut.net/contrib/jquery/jquery.js"></script>
-<script language="javascript" src="http://media.brehaut.net/files/color.js"></script>
-<script language="javascript" src="http://media.brehaut.net/j/code/test-color.js"></script>
 
