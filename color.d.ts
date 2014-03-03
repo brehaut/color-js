@@ -2,7 +2,7 @@
 //
 // Please consult that file for the implementation of the script.
 
-module net.brehaut {
+declare module net.brehaut {
     export interface Color {
         // field accessors
         getRed(): number;
@@ -100,9 +100,9 @@ module net.brehaut {
     }
 
     // public constructor
-    declare function Color(): Color;
-    declare function Color(cssColor: string): Color;
-    declare function Color(color: ValuesObject): Color;
-    declare function Color(color: number[]): Color;
+    function Color(): Color;
+    function Color(cssColor: string): Color;
+    function Color(color: ValuesObject): Color;
+    function Color(color: number[]): Color;
 }
 
