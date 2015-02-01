@@ -141,7 +141,7 @@ if (!net.brehaut) { net.brehaut = {}; }
 
   /* registerModel is used to add additional representations
    * to the color code, and extend the color API with the new
-   * operatiosn that model provides. see before for examples
+   * operation that model provides. see before for examples
    */
   function registerModel( name, model ) {
     var proto = object(color);
