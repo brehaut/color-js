@@ -1,8 +1,6 @@
 var vows   = require('vows'),
     assert = require('assert'),
-    color  = require('../color');
-
-var Color = color.Color;
+    Color  = require('../color');
 
 assert.colorEqual = function(color1, color2) {
   assert.deepEqual(color1.toRGB(), color2.toRGB());
