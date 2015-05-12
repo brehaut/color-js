@@ -127,6 +127,9 @@ Internally theres a bit of metaprogramming soup to make it easier to define colo
 # Changes
 
 <dl>  
+  <dt><em>May 12, 2015</em></dt>
+  <dd>Version 1.0.2: Add package.json for NPM publishing.</dd>
+
   <dt><em>May 3, 2013</em></dt>
   <dd>Version 1.0.1: Bug fix for alpha support in achromatic HSV to RGB.</dd>
   
