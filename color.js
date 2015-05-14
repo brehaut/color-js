@@ -834,7 +834,6 @@ if (!net.brehaut) { net.brehaut = {}; }
 
 /* Export to CommonJS
 */
-var module;
-if(module) {
-  module.exports.Color = net.brehaut.Color;
+if(typeof module !== 'undefined') {
+  module.exports = net.brehaut.Color;
 }
