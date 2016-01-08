@@ -77,32 +77,45 @@ declare module net.brehaut {
     }
     
     // types used in construction of a Color 
-    export interface ValuesObject { 
-        alpha?: number;
-    }
-
-    export interface RGBAValues extends ValuesObject {
+    export interface RGBAValues {
         red: number;
         green: number;
         blue: number;
+		alpha?: number;
     }
 
-    export interface HSVAValue extends ValuesObject {
+    export interface HSVAValue {
         hue: number;
         saturation: number;
         value: number;
+		alpha?: number;
     }
 
-    export interface HSLValue extends ValuesObject {
+    export interface HSLAValue {
         hue: number;
         saturation: number;
         lightness: number;
+		alpha?: number;
     }
+    
+	export type ColorConstructorValue = string 
+									  | RGBAValues 
+									  | HSVAValue 
+									  | HSLAValue 
+									  | [number, number, number] 
+									  | [number, number, number, number];
+
+    // legacy names for constructor types. These are deprecated. 
+    export type HSLValue = HSLAValue;
+	
+	export type ValuesObject = RGBAValues 
+							 | HSVAValue 
+							 | HSLAValue
+							 | {alpha?: number}; // the original interface.
+	
 
     // public constructor
     function Color(): Color;
-    function Color(cssColor: string): Color;
-    function Color(color: ValuesObject): Color;
-    function Color(color: number[]): Color;
+    function Color(color: ColorConstructorValue): Color;
 }
 
