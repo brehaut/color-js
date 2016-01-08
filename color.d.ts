@@ -81,37 +81,37 @@ declare module net.brehaut {
         red: number;
         green: number;
         blue: number;
-		alpha?: number;
+        alpha?: number;
     }
 
     export interface HSVAValue {
         hue: number;
         saturation: number;
         value: number;
-		alpha?: number;
+        alpha?: number;
     }
 
     export interface HSLAValue {
         hue: number;
         saturation: number;
         lightness: number;
-		alpha?: number;
+        alpha?: number;
     }
     
-	export type ColorConstructorValue = string 
-									  | RGBAValues 
-									  | HSVAValue 
-									  | HSLAValue 
-									  | [number, number, number] 
-									  | [number, number, number, number];
+    export type ColorConstructorValue = string 
+                                      | RGBAValues 
+                                      | HSVAValue 
+                                      | HSLAValue 
+                                      | [number, number, number] 
+                                      | [number, number, number, number];
 
     // legacy names for constructor types. These are deprecated. 
     export type HSLValue = HSLAValue;
 	
-	export type ValuesObject = RGBAValues 
-							 | HSVAValue 
-							 | HSLAValue
-							 | {alpha?: number}; // the original interface.
+    export type ValuesObject = RGBAValues 
+                             | HSVAValue 
+                             | HSLAValue
+                             | {alpha?: number}; // the original interface.
 	
 
     // public constructor
