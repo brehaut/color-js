@@ -34,17 +34,170 @@
 
 // create namespaces
 /*global net */
-if ("undefined" == typeof net) { var net = {}; }
-if (!net.brehaut) { net.brehaut = {}; }
+if ("undefined" == typeof net) {
+  var net = {};
+}
+if (!net.brehaut) {
+  net.brehaut = {};
+}
 
 // this module function is called with net.brehaut as 'this'
-(function ( ) {
+(function() {
   "use strict";
   // Constants
 
   // css_colors maps color names onto their hex values
   // these names are defined by W3C
-  var css_colors = {aliceblue:'#F0F8FF',antiquewhite:'#FAEBD7',aqua:'#00FFFF',aquamarine:'#7FFFD4',azure:'#F0FFFF',beige:'#F5F5DC',bisque:'#FFE4C4',black:'#000000',blanchedalmond:'#FFEBCD',blue:'#0000FF',blueviolet:'#8A2BE2',brown:'#A52A2A',burlywood:'#DEB887',cadetblue:'#5F9EA0',chartreuse:'#7FFF00',chocolate:'#D2691E',coral:'#FF7F50',cornflowerblue:'#6495ED',cornsilk:'#FFF8DC',crimson:'#DC143C',cyan:'#00FFFF',darkblue:'#00008B',darkcyan:'#008B8B',darkgoldenrod:'#B8860B',darkgray:'#A9A9A9',darkgrey:'#A9A9A9',darkgreen:'#006400',darkkhaki:'#BDB76B',darkmagenta:'#8B008B',darkolivegreen:'#556B2F',darkorange:'#FF8C00',darkorchid:'#9932CC',darkred:'#8B0000',darksalmon:'#E9967A',darkseagreen:'#8FBC8F',darkslateblue:'#483D8B',darkslategray:'#2F4F4F',darkslategrey:'#2F4F4F',darkturquoise:'#00CED1',darkviolet:'#9400D3',deeppink:'#FF1493',deepskyblue:'#00BFFF',dimgray:'#696969',dimgrey:'#696969',dodgerblue:'#1E90FF',firebrick:'#B22222',floralwhite:'#FFFAF0',forestgreen:'#228B22',fuchsia:'#FF00FF',gainsboro:'#DCDCDC',ghostwhite:'#F8F8FF',gold:'#FFD700',goldenrod:'#DAA520',gray:'#808080',grey:'#808080',green:'#008000',greenyellow:'#ADFF2F',honeydew:'#F0FFF0',hotpink:'#FF69B4',indianred:'#CD5C5C',indigo:'#4B0082',ivory:'#FFFFF0',khaki:'#F0E68C',lavender:'#E6E6FA',lavenderblush:'#FFF0F5',lawngreen:'#7CFC00',lemonchiffon:'#FFFACD',lightblue:'#ADD8E6',lightcoral:'#F08080',lightcyan:'#E0FFFF',lightgoldenrodyellow:'#FAFAD2',lightgray:'#D3D3D3',lightgrey:'#D3D3D3',lightgreen:'#90EE90',lightpink:'#FFB6C1',lightsalmon:'#FFA07A',lightseagreen:'#20B2AA',lightskyblue:'#87CEFA',lightslategray:'#778899',lightslategrey:'#778899',lightsteelblue:'#B0C4DE',lightyellow:'#FFFFE0',lime:'#00FF00',limegreen:'#32CD32',linen:'#FAF0E6',magenta:'#FF00FF',maroon:'#800000',mediumaquamarine:'#66CDAA',mediumblue:'#0000CD',mediumorchid:'#BA55D3',mediumpurple:'#9370D8',mediumseagreen:'#3CB371',mediumslateblue:'#7B68EE',mediumspringgreen:'#00FA9A',mediumturquoise:'#48D1CC',mediumvioletred:'#C71585',midnightblue:'#191970',mintcream:'#F5FFFA',mistyrose:'#FFE4E1',moccasin:'#FFE4B5',navajowhite:'#FFDEAD',navy:'#000080',oldlace:'#FDF5E6',olive:'#808000',olivedrab:'#6B8E23',orange:'#FFA500',orangered:'#FF4500',orchid:'#DA70D6',palegoldenrod:'#EEE8AA',palegreen:'#98FB98',paleturquoise:'#AFEEEE',palevioletred:'#D87093',papayawhip:'#FFEFD5',peachpuff:'#FFDAB9',peru:'#CD853F',pink:'#FFC0CB',plum:'#DDA0DD',powderblue:'#B0E0E6',purple:'#800080',rebeccapurple:'#663399',red:'#FF0000',rosybrown:'#BC8F8F',royalblue:'#4169E1',saddlebrown:'#8B4513',salmon:'#FA8072',sandybrown:'#F4A460',seagreen:'#2E8B57',seashell:'#FFF5EE',sienna:'#A0522D',silver:'#C0C0C0',skyblue:'#87CEEB',slateblue:'#6A5ACD',slategray:'#708090',slategrey:'#708090',snow:'#FFFAFA',springgreen:'#00FF7F',steelblue:'#4682B4',tan:'#D2B48C',teal:'#008080',thistle:'#D8BFD8',tomato:'#FF6347',turquoise:'#40E0D0',violet:'#EE82EE',wheat:'#F5DEB3',white:'#FFFFFF',whitesmoke:'#F5F5F5',yellow:'#FFFF00',yellowgreen:'#9ACD32'};
+  var css_colors = {
+    aliceblue: '#F0F8FF',
+    antiquewhite: '#FAEBD7',
+    aqua: '#00FFFF',
+    aquamarine: '#7FFFD4',
+    azure: '#F0FFFF',
+    beige: '#F5F5DC',
+    bisque: '#FFE4C4',
+    black: '#000000',
+    blanchedalmond: '#FFEBCD',
+    blue: '#0000FF',
+    blueviolet: '#8A2BE2',
+    brown: '#A52A2A',
+    burlywood: '#DEB887',
+    cadetblue: '#5F9EA0',
+    chartreuse: '#7FFF00',
+    chocolate: '#D2691E',
+    coral: '#FF7F50',
+    cornflowerblue: '#6495ED',
+    cornsilk: '#FFF8DC',
+    crimson: '#DC143C',
+    cyan: '#00FFFF',
+    darkblue: '#00008B',
+    darkcyan: '#008B8B',
+    darkgoldenrod: '#B8860B',
+    darkgray: '#A9A9A9',
+    darkgrey: '#A9A9A9',
+    darkgreen: '#006400',
+    darkkhaki: '#BDB76B',
+    darkmagenta: '#8B008B',
+    darkolivegreen: '#556B2F',
+    darkorange: '#FF8C00',
+    darkorchid: '#9932CC',
+    darkred: '#8B0000',
+    darksalmon: '#E9967A',
+    darkseagreen: '#8FBC8F',
+    darkslateblue: '#483D8B',
+    darkslategray: '#2F4F4F',
+    darkslategrey: '#2F4F4F',
+    darkturquoise: '#00CED1',
+    darkviolet: '#9400D3',
+    deeppink: '#FF1493',
+    deepskyblue: '#00BFFF',
+    dimgray: '#696969',
+    dimgrey: '#696969',
+    dodgerblue: '#1E90FF',
+    firebrick: '#B22222',
+    floralwhite: '#FFFAF0',
+    forestgreen: '#228B22',
+    fuchsia: '#FF00FF',
+    gainsboro: '#DCDCDC',
+    ghostwhite: '#F8F8FF',
+    gold: '#FFD700',
+    goldenrod: '#DAA520',
+    gray: '#808080',
+    grey: '#808080',
+    green: '#008000',
+    greenyellow: '#ADFF2F',
+    honeydew: '#F0FFF0',
+    hotpink: '#FF69B4',
+    indianred: '#CD5C5C',
+    indigo: '#4B0082',
+    ivory: '#FFFFF0',
+    khaki: '#F0E68C',
+    lavender: '#E6E6FA',
+    lavenderblush: '#FFF0F5',
+    lawngreen: '#7CFC00',
+    lemonchiffon: '#FFFACD',
+    lightblue: '#ADD8E6',
+    lightcoral: '#F08080',
+    lightcyan: '#E0FFFF',
+    lightgoldenrodyellow: '#FAFAD2',
+    lightgray: '#D3D3D3',
+    lightgrey: '#D3D3D3',
+    lightgreen: '#90EE90',
+    lightpink: '#FFB6C1',
+    lightsalmon: '#FFA07A',
+    lightseagreen: '#20B2AA',
+    lightskyblue: '#87CEFA',
+    lightslategray: '#778899',
+    lightslategrey: '#778899',
+    lightsteelblue: '#B0C4DE',
+    lightyellow: '#FFFFE0',
+    lime: '#00FF00',
+    limegreen: '#32CD32',
+    linen: '#FAF0E6',
+    magenta: '#FF00FF',
+    maroon: '#800000',
+    mediumaquamarine: '#66CDAA',
+    mediumblue: '#0000CD',
+    mediumorchid: '#BA55D3',
+    mediumpurple: '#9370D8',
+    mediumseagreen: '#3CB371',
+    mediumslateblue: '#7B68EE',
+    mediumspringgreen: '#00FA9A',
+    mediumturquoise: '#48D1CC',
+    mediumvioletred: '#C71585',
+    midnightblue: '#191970',
+    mintcream: '#F5FFFA',
+    mistyrose: '#FFE4E1',
+    moccasin: '#FFE4B5',
+    navajowhite: '#FFDEAD',
+    navy: '#000080',
+    oldlace: '#FDF5E6',
+    olive: '#808000',
+    olivedrab: '#6B8E23',
+    orange: '#FFA500',
+    orangered: '#FF4500',
+    orchid: '#DA70D6',
+    palegoldenrod: '#EEE8AA',
+    palegreen: '#98FB98',
+    paleturquoise: '#AFEEEE',
+    palevioletred: '#D87093',
+    papayawhip: '#FFEFD5',
+    peachpuff: '#FFDAB9',
+    peru: '#CD853F',
+    pink: '#FFC0CB',
+    plum: '#DDA0DD',
+    powderblue: '#B0E0E6',
+    purple: '#800080',
+    rebeccapurple: '#663399',
+    red: '#FF0000',
+    rosybrown: '#BC8F8F',
+    royalblue: '#4169E1',
+    saddlebrown: '#8B4513',
+    salmon: '#FA8072',
+    sandybrown: '#F4A460',
+    seagreen: '#2E8B57',
+    seashell: '#FFF5EE',
+    sienna: '#A0522D',
+    silver: '#C0C0C0',
+    skyblue: '#87CEEB',
+    slateblue: '#6A5ACD',
+    slategray: '#708090',
+    slategrey: '#708090',
+    snow: '#FFFAFA',
+    springgreen: '#00FF7F',
+    steelblue: '#4682B4',
+    tan: '#D2B48C',
+    teal: '#008080',
+    thistle: '#D8BFD8',
+    tomato: '#FF6347',
+    turquoise: '#40E0D0',
+    violet: '#EE82EE',
+    wheat: '#F5DEB3',
+    white: '#FFFFFF',
+    whitesmoke: '#F5F5F5',
+    yellow: '#FFFF00',
+    yellowgreen: '#9ACD32'
+  };
 
   // CSS value regexes, according to http://www.w3.org/TR/css3-values/
   var css_integer = '(?:\\+|-)?\\d+';
@@ -59,13 +212,13 @@ if (!net.brehaut) { net.brehaut = {}; }
   // http://www.w3.org/TR/2003/CR-css3-color-20030514/
   var hsl_hsla_regex = new RegExp([
     '^hsl(a?)\\(', css_number, ',', css_percentage, ',', css_percentage, '(,(', css_number, '))?\\)$'
-  ].join(css_whitespace) );
+  ].join(css_whitespace));
   var rgb_rgba_integer_regex = new RegExp([
     '^rgb(a?)\\(', css_integer, ',', css_integer, ',', css_integer, '(,(', css_number, '))?\\)$'
-  ].join(css_whitespace) );
+  ].join(css_whitespace));
   var rgb_rgba_percentage_regex = new RegExp([
     '^rgb(a?)\\(', css_percentage, ',', css_percentage, ',', css_percentage, '(,(', css_number, '))?\\)$'
-  ].join(css_whitespace) );
+  ].join(css_whitespace));
 
   // Package wide variables
 
@@ -89,8 +242,8 @@ if (!net.brehaut) { net.brehaut = {}; }
    * inheritance.
    */
   if (!this.object) {
-    this.object = function (o) {
-      function F () { }
+    this.object = function(o) {
+      function F() {}
       F.prototype = o;
       return new F();
     };
@@ -100,11 +253,11 @@ if (!net.brehaut) { net.brehaut = {}; }
   /* takes a value, converts to string if need be, then pads it
    * to a minimum length.
    */
-  function pad ( val, len ) {
+  function pad(val, len) {
     val = val.toString();
     var padded = [];
 
-    for (var i = 0, j = Math.max( len - val.length, 0); i < j; i++) {
+    for (var i = 0, j = Math.max(len - val.length, 0); i < j; i++) {
       padded.push('0');
     }
 
@@ -116,13 +269,13 @@ if (!net.brehaut) { net.brehaut = {}; }
   /* takes a string and returns a new string with the first letter
    * capitalised
    */
-  function capitalise ( s ) {
-    return s.slice(0,1).toUpperCase() + s.slice(1);
+  function capitalise(s) {
+    return s.slice(0, 1).toUpperCase() + s.slice(1);
   }
 
   /* removes leading and trailing whitespace
    */
-  function trim ( str ) {
+  function trim(str) {
     return str.replace(/^\s+|\s+$/g, '');
   }
 
@@ -130,8 +283,8 @@ if (!net.brehaut) { net.brehaut = {}; }
    * cloning the object and then apply the method to that
    * new object
    */
-  function cloneOnApply( meth ) {
-    return function ( ) {
+  function cloneOnApply(meth) {
+    return function() {
       var cloned = this.clone();
       meth.apply(cloned, arguments);
       return cloned;
@@ -143,68 +296,71 @@ if (!net.brehaut) { net.brehaut = {}; }
    * to the color code, and extend the color API with the new
    * operation that model provides. see before for examples
    */
-  function registerModel( name, model ) {
+  function registerModel(name, model) {
     var proto = object(color);
     var fields = []; // used for cloning and generating accessors
 
-    var to_meth = 'to'+ capitalise(name);
+    var to_meth = 'to' + capitalise(name);
 
-    function convertAndApply( meth ) {
-      return function ( ) {
+    function convertAndApply(meth) {
+      return function() {
         return meth.apply(this[to_meth](), arguments);
       };
     }
 
-    for (var key in model) if (model.hasOwnProperty(key)) {
-      proto[key] = model[key];
-      var prop = proto[key];
+    for (var key in model)
+      if (model.hasOwnProperty(key)) {
+        proto[key] = model[key];
+        var prop = proto[key];
 
-      if (key.slice(0,1) == '_') { continue; }
-      if (!(key in color) && "function" == typeof prop) {
-        // the method found on this object is a) public and b) not
-        // currently supported by the color object. Create an impl that
-        // calls the toModel function and passes that new object
-        // onto the correct method with the args.
-        color[key] = convertAndApply(prop);
-      }
-      else if ("function" != typeof prop) {
-        // we have found a public property. create accessor methods
-        // and bind them up correctly
-        fields.push(key);
-        var getter = 'get'+capitalise(key);
-        var setter = 'set'+capitalise(key);
+        if (key.slice(0, 1) == '_') {
+          continue;
+        }
+        if (!(key in color) && "function" == typeof prop) {
+          // the method found on this object is a) public and b) not
+          // currently supported by the color object. Create an impl that
+          // calls the toModel function and passes that new object
+          // onto the correct method with the args.
+          color[key] = convertAndApply(prop);
+        } else if ("function" != typeof prop) {
+          // we have found a public property. create accessor methods
+          // and bind them up correctly
+          fields.push(key);
+          var getter = 'get' + capitalise(key);
+          var setter = 'set' + capitalise(key);
 
-        color[getter] = convertAndApply(
-          proto[getter] = (function ( key ) {
-            return function ( ) {
-              return this[key];
-            };
-          })( key )
-        );
+          color[getter] = convertAndApply(
+            proto[getter] = (function(key) {
+              return function() {
+                return this[key];
+              };
+            })(key)
+          );
 
-        color[setter] = convertAndApply(
-          proto[setter] = (function ( key ) {
-            return function ( val ) {
-              var cloned = this.clone();
-              cloned[key] = val;
-              return cloned;
-            };
-          })( key )
-        );
-      }
-    } // end of for over model
+          color[setter] = convertAndApply(
+            proto[setter] = (function(key) {
+              return function(val) {
+                var cloned = this.clone();
+                cloned[key] = val;
+                return cloned;
+              };
+            })(key)
+          );
+        }
+      } // end of for over model
 
-    // a method to create a new object - largely so prototype chains dont
-    // get insane. This uses an unrolled 'object' so that F is cached
-    // for later use. this is approx a 25% speed improvement
-    function F () { }
+      // a method to create a new object - largely so prototype chains dont
+      // get insane. This uses an unrolled 'object' so that F is cached
+      // for later use. this is approx a 25% speed improvement
+    function F() {}
     F.prototype = proto;
-    function factory ( ) {
+
+    function factory() {
       return new F();
     }
     factories[name] = factory;
 
-    proto.clone = function () {
+    proto.clone = function() {
       var cloned = factory();
       for (var i = 0, j = fields.length; i < j; i++) {
         var key = fields[i];
@@ -213,14 +369,14 @@ if (!net.brehaut) { net.brehaut = {}; }
       return cloned;
     };
 
-    color[to_meth] = function ( ) {
+    color[to_meth] = function() {
       return factory();
     };
 
     registered_models.push(proto);
 
     return proto;
-  }// end of registerModel
+  } // end of registerModel
 
   // Template Objects
 
@@ -233,7 +389,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     /* fromObject takes an argument and delegates to the internal
      * color models to try to create a new instance.
      */
-    fromObject: function ( o ) {
+    fromObject: function(o) {
       if (!o) {
         return object(color);
       }
@@ -248,7 +404,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       return object(color);
     },
 
-    toString: function ( ) {
+    toString: function() {
       return this.toCSS();
     }
   };
@@ -259,26 +415,26 @@ if (!net.brehaut) { net.brehaut = {}; }
    * to a template object by registerModel.
    */
   registerModel('RGB', {
-    red:    0,
-    green:  0,
-    blue:   0,
-    alpha:  0,
+    red: 0,
+    green: 0,
+    blue: 0,
+    alpha: 0,
 
     /* getLuminance returns a value between 0 and 1, this is the
      * luminance calcuated according to
      * http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html#RTFToC9
      */
-    getLuminance: function ( ) {
+    getLuminance: function() {
       return (this.red * 0.2126) + (this.green * 0.7152) + (this.blue * 0.0722);
     },
 
     /* does an alpha based blend of color onto this. alpha is the
      * amount of 'color' to use. (0 to 1)
      */
-    blend: function ( color , alpha ) {
+    blend: function(color, alpha) {
       color = color.toRGB();
       alpha = Math.min(Math.max(alpha, 0), 1);
-      var rgb = this.clone();     
+      var rgb = this.clone();
 
       rgb.red = (rgb.red * (1 - alpha)) + (color.red * alpha);
       rgb.green = (rgb.green * (1 - alpha)) + (color.green * alpha);
@@ -288,95 +444,186 @@ if (!net.brehaut) { net.brehaut = {}; }
       return rgb;
     },
 
+    colorContrast: function(color) {
+
+      // From specification, if no background color is provided
+      // background is considered white
+
+
+      
+      var fground = color.toRGB();
+      var bground = this.clone();
+
+      if (bground.alpha >= 1) {
+        if (fground.alpha < 1) {
+            fground = fground._overlayOn(bground);  
+        }
+
+        var l1 = bground.getLuminance() + .05;
+        var l2 = fground.getLuminance() + .05;
+        var ratio = l1/l2;
+
+        if (l2 > l1) {
+          ratio = 1 / ratio;
+        }
+
+        ratio = Math.round(ratio * 10) / 10;
+
+        return {
+          ratio: ratio,
+          error: 0,
+          min: ratio,
+          max: ratio
+        };
+        
+      }
+
+      var onBlack = this._overlayOn(this._fromCSS("black")),
+          onWhite = this._overlayOn(this._fromCSS("white")),
+          contrastOnBlack = onBlack.contrast(fground).ratio,
+          contrastOnWhite = onWhite.contrast(fground).ratio;
+
+      var max = Math.max(contrastOnBlack, contrastOnWhite);
+
+      // This is here for backwards compatibility and not used to calculate
+      // `min`.  Note that there may be other colors with a closer luminance to
+      // `color` if they have a different hue than `this`.
+      var closest = {};
+      closest.red = Math.min(Math.max(0, (fground.red - bground.red*bground.alpha)/(1-bground.alpha)) , 255);
+      closest.green = Math.min(Math.max(0, (fground.green - bground.green*bground.alpha)/(1-bground.alpha)) , 255);
+      closest.blue = Math.min(Math.max(0, (fground.blue - bground.blue*bground.alpha)/(1-bground.alpha)) , 255);
+
+      closest = this._fromRGB(closest);
+
+      var min = 1;
+      if (onBlack.getLuminance() > color.getLuminance()) {
+        min = contrastOnBlack;
+      }
+      else if (onWhite.getLuminance() < color.getLuminance()) {
+        min = contrastOnWhite;
+      }
+
+      return {
+        ratio: Math.round(((min + max) / 2) * 100)/100,
+        error: Math.round(((max - min) / 2) * 100)/100,
+        min: min,
+        max: max,
+        closest: closest,
+        farthest: onWhite == max? this._fromCSS("white") : this._fromCSS("black")
+      };
+       
+    },
+
+    _overlayOn: function(color) {
+
+        color = color.toRGB();
+
+        var overlaid = this.clone();
+
+        var alpha = this.alpha;
+
+        if (alpha >= 1) {
+          return overlaid;
+        }
+
+        overlaid.red   = overlaid.red * alpha + color.red * color.alpha * (1 - alpha);
+        overlaid.green = overlaid.green * alpha + color.green * color.alpha * (1 - alpha);
+        overlaid.blue  = overlaid.blue * alpha + color.blue * color.alpha * (1 - alpha);
+        overlaid.alpha = alpha + color.alpha * (1 - alpha);
+
+        return overlaid;
+
+    },
+
     /* fromObject attempts to convert an object o to and RGB
      * instance. This accepts an object with red, green and blue
      * members or a string. If the string is a known CSS color name
      * or a hexdecimal string it will accept it.
      */
-    fromObject: function ( o ) {
+      fromObject: function(o) {
       if (o instanceof Array) {
-        return this._fromRGBArray ( o );
+        return this._fromRGBArray(o);
       }
       if ("string" == typeof o) {
-        return this._fromCSS( trim( o ) );
+        return this._fromCSS(trim(o));
       }
       if (o.hasOwnProperty('red') &&
-          o.hasOwnProperty('green') &&
-          o.hasOwnProperty('blue')) {
-        return this._fromRGB ( o );
+        o.hasOwnProperty('green') &&
+        o.hasOwnProperty('blue')) {
+        return this._fromRGB(o);
       }
       // nothing matchs, not an RGB object
     },
 
     _stringParsers: [
-        // CSS RGB(A) literal:
-        function ( css ) {
-          css = trim(css);
+      // CSS RGB(A) literal:
+      function(css) {
+        css = trim(css);
 
-          var withInteger = match(rgb_rgba_integer_regex, 255);
-          if(withInteger) {
-            return withInteger;
-          }
-          return match(rgb_rgba_percentage_regex, 100);
-
-          function match(regex, max_value) {
-            var colorGroups = css.match( regex );
-
-            // If there is an "a" after "rgb", there must be a fourth parameter and the other way round
-            if (!colorGroups || (!!colorGroups[1] + !!colorGroups[5] === 1)) {
-              return null;
-            }
-
-            var rgb = factories.RGB();
-            rgb.red   = Math.min(1, Math.max(0, colorGroups[2] / max_value));
-            rgb.green = Math.min(1, Math.max(0, colorGroups[3] / max_value));
-            rgb.blue  = Math.min(1, Math.max(0, colorGroups[4] / max_value));
-            rgb.alpha = !!colorGroups[5] ? Math.min(Math.max(parseFloat(colorGroups[6]), 0), 1) : 1;
-
-            return rgb;
-          }
-        },
-
-        function ( css ) {
-            var lower = css.toLowerCase();
-            if (lower in css_colors) {
-              css = css_colors[lower];
-            }
-
-            if (!css.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/)) {
-              return;
-            }
-
-            css = css.replace(/^#/,'');
-
-            var bytes = css.length / 3;
-
-            var max = Math.pow(16, bytes) - 1;
-
-            var rgb = factories.RGB();
-            rgb.red =   parseInt(css.slice(0, bytes), 16) / max;
-            rgb.green = parseInt(css.slice(bytes * 1,bytes * 2), 16) / max;
-            rgb.blue =  parseInt(css.slice(bytes * 2), 16) / max;
-            rgb.alpha = 1;
-            return rgb;
-        },
-
-        function ( css ) {
-            if (css.toLowerCase() !== 'transparent') return;
-
-            return transparent;
+        var withInteger = match(rgb_rgba_integer_regex, 255);
+        if (withInteger) {
+          return withInteger;
         }
+        return match(rgb_rgba_percentage_regex, 100);
+
+        function match(regex, max_value) {
+          var colorGroups = css.match(regex);
+
+          // If there is an "a" after "rgb", there must be a fourth parameter and the other way round
+          if (!colorGroups || (!!colorGroups[1] + !!colorGroups[5] === 1)) {
+            return null;
+          }
+
+          var rgb = factories.RGB();
+          rgb.red = Math.min(1, Math.max(0, colorGroups[2] / max_value));
+          rgb.green = Math.min(1, Math.max(0, colorGroups[3] / max_value));
+          rgb.blue = Math.min(1, Math.max(0, colorGroups[4] / max_value));
+          rgb.alpha = !!colorGroups[5] ? Math.min(Math.max(parseFloat(colorGroups[6]), 0), 1) : 1;
+
+          return rgb;
+        }
+      },
+
+      function(css) {
+        var lower = css.toLowerCase();
+        if (lower in css_colors) {
+          css = css_colors[lower];
+        }
+
+        if (!css.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/)) {
+          return;
+        }
+
+        css = css.replace(/^#/, '');
+
+        var bytes = css.length / 3;
+
+        var max = Math.pow(16, bytes) - 1;
+
+        var rgb = factories.RGB();
+        rgb.red = parseInt(css.slice(0, bytes), 16) / max;
+        rgb.green = parseInt(css.slice(bytes * 1, bytes * 2), 16) / max;
+        rgb.blue = parseInt(css.slice(bytes * 2), 16) / max;
+        rgb.alpha = 1;
+        return rgb;
+      },
+
+      function(css) {
+        if (css.toLowerCase() !== 'transparent') return;
+
+        return transparent;
+      }
     ],
 
-    _fromCSS: function ( css ) {
+    _fromCSS: function(css) {
       var color = null;
       for (var i = 0, j = this._stringParsers.length; i < j; i++) {
-          color = this._stringParsers[i](css);
-          if (color) return color;
+        color = this._stringParsers[i](css);
+        if (color) return color;
       }
     },
 
-    _fromRGB: function ( RGB ) {
+    _fromRGB: function(RGB) {
       var newRGB = factories.RGB();
 
       newRGB.red = RGB.red;
@@ -387,7 +634,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       return newRGB;
     },
 
-    _fromRGBArray: function ( RGB ) {
+    _fromRGBArray: function(RGB) {
       var newRGB = factories.RGB();
 
       newRGB.red = Math.max(0, Math.min(1, RGB[0] / 255));
@@ -399,38 +646,38 @@ if (!net.brehaut) { net.brehaut = {}; }
     },
 
     // convert to a CSS string. defaults to two bytes a value
-    toCSSHex: function ( bytes ) {
-        bytes = bytes || 2;
+    toCSSHex: function(bytes) {
+      bytes = bytes || 2;
 
-        var max = Math.pow(16, bytes) - 1;
-        var css = [
-          "#",
-          pad ( Math.round(this.red * max).toString( 16 ).toUpperCase(), bytes ),
-          pad ( Math.round(this.green * max).toString( 16 ).toUpperCase(), bytes ),
-          pad ( Math.round(this.blue * max).toString( 16 ).toUpperCase(), bytes )
-        ];
+      var max = Math.pow(16, bytes) - 1;
+      var css = [
+        "#",
+        pad(Math.round(this.red * max).toString(16).toUpperCase(), bytes),
+        pad(Math.round(this.green * max).toString(16).toUpperCase(), bytes),
+        pad(Math.round(this.blue * max).toString(16).toUpperCase(), bytes)
+      ];
 
-        return css.join('');
-    },    
-    
-    toCSS: function ( bytes ) {
-      if (this.alpha === 1) return this.toCSSHex(bytes); 
+      return css.join('');
+    },
+
+    toCSS: function(bytes) {
+      if (this.alpha === 1) return this.toCSSHex(bytes);
 
       var max = 255;
-      
+
       var components = [
         'rgba(',
         Math.max(0, Math.min(max, Math.round(this.red * max))), ',',
-        Math.max(0, Math.min(max, Math.round(this.green * max))), ',', 
+        Math.max(0, Math.min(max, Math.round(this.green * max))), ',',
         Math.max(0, Math.min(max, Math.round(this.blue * max))), ',',
-        Math.max(0, Math.min(1, this.alpha)), 
+        Math.max(0, Math.min(1, this.alpha)),
         ')'
       ];
 
       return components.join('');
     },
 
-    toHSV: function ( ) {
+    toHSV: function() {
       var hsv = factories.HSV();
       var min, max, delta;
 
@@ -440,20 +687,17 @@ if (!net.brehaut) { net.brehaut = {}; }
 
       delta = max - min;
 
-      if( delta == 0 ) { // white, grey, black
+      if (delta == 0) { // white, grey, black
         hsv.hue = hsv.saturation = 0;
-      }
-      else { // chroma
+      } else { // chroma
         hsv.saturation = delta / max;
 
-        if( this.red == max ) {
-          hsv.hue = ( this.green - this.blue ) / delta; // between yellow & magenta
-        }
-        else if( this.green  == max ) {
-          hsv.hue = 2 + ( this.blue - this.red ) / delta; // between cyan & yellow
-        }
-        else {
-          hsv.hue = 4 + ( this.red - this.green ) / delta; // between magenta & cyan
+        if (this.red == max) {
+          hsv.hue = (this.green - this.blue) / delta; // between yellow & magenta
+        } else if (this.green == max) {
+          hsv.hue = 2 + (this.blue - this.red) / delta; // between cyan & yellow
+        } else {
+          hsv.hue = 4 + (this.red - this.green) / delta; // between magenta & cyan
         }
 
         hsv.hue = ((hsv.hue * 60) + 360) % 360; // degrees
@@ -463,16 +707,21 @@ if (!net.brehaut) { net.brehaut = {}; }
 
       return hsv;
     },
-    toHSL: function ( ) {
+    toHSL: function() {
       return this.toHSV().toHSL();
     },
 
-    toRGB: function ( ) {
+    toRGB: function() {
       return this.clone();
     }
   });
 
-  transparent = color.fromObject({red: 0, blue: 0, green: 0, alpha: 0});
+  transparent = color.fromObject({
+    red: 0,
+    blue: 0,
+    green: 0,
+    alpha: 0
+  });
 
 
   /* Like RGB above, this object describes what will become the HSV
@@ -486,7 +735,7 @@ if (!net.brehaut) { net.brehaut = {}; }
     value: 1,
     alpha: 1,
 
-    shiftHue: cloneOnApply(function ( degrees ) {
+    shiftHue: cloneOnApply(function(degrees) {
       var hue = (this.hue + degrees) % 360;
       if (hue < 0) {
         hue = (360 + hue) % 360;
@@ -495,39 +744,39 @@ if (!net.brehaut) { net.brehaut = {}; }
       this.hue = hue;
     }),
 
-    devalueByAmount: cloneOnApply(function ( val ) {
+    devalueByAmount: cloneOnApply(function(val) {
       this.value = Math.min(1, Math.max(this.value - val, 0));
     }),
 
-    devalueByRatio: cloneOnApply(function ( val ) {
+    devalueByRatio: cloneOnApply(function(val) {
       this.value = Math.min(1, Math.max(this.value * (1 - val), 0));
     }),
 
-    valueByAmount: cloneOnApply(function ( val ) {
+    valueByAmount: cloneOnApply(function(val) {
       this.value = Math.min(1, Math.max(this.value + val, 0));
     }),
 
-    valueByRatio: cloneOnApply(function ( val ) {
+    valueByRatio: cloneOnApply(function(val) {
       this.value = Math.min(1, Math.max(this.value * (1 + val), 0));
     }),
 
-    desaturateByAmount: cloneOnApply(function ( val ) {
+    desaturateByAmount: cloneOnApply(function(val) {
       this.saturation = Math.min(1, Math.max(this.saturation - val, 0));
     }),
 
-    desaturateByRatio: cloneOnApply(function ( val ) {
+    desaturateByRatio: cloneOnApply(function(val) {
       this.saturation = Math.min(1, Math.max(this.saturation * (1 - val), 0));
     }),
 
-    saturateByAmount: cloneOnApply(function ( val ) {
+    saturateByAmount: cloneOnApply(function(val) {
       this.saturation = Math.min(1, Math.max(this.saturation + val, 0));
     }),
 
-    saturateByRatio: cloneOnApply(function ( val ) {
+    saturateByRatio: cloneOnApply(function(val) {
       this.saturation = Math.min(1, Math.max(this.saturation * (1 + val), 0));
     }),
 
-    schemeFromDegrees: function ( degrees ) {
+    schemeFromDegrees: function(degrees) {
       var newColors = [];
       for (var i = 0, j = degrees.length; i < j; i++) {
         var col = this.clone();
@@ -537,82 +786,82 @@ if (!net.brehaut) { net.brehaut = {}; }
       return newColors;
     },
 
-    complementaryScheme: function ( ) {
-      return this.schemeFromDegrees([0,180]);
+    complementaryScheme: function() {
+      return this.schemeFromDegrees([0, 180]);
     },
 
-    splitComplementaryScheme: function ( ) {
-      return this.schemeFromDegrees([0,150,320]);
+    splitComplementaryScheme: function() {
+      return this.schemeFromDegrees([0, 150, 320]);
     },
 
-    splitComplementaryCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,150,300]);
+    splitComplementaryCWScheme: function() {
+      return this.schemeFromDegrees([0, 150, 300]);
     },
 
-    splitComplementaryCCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,60,210]);
+    splitComplementaryCCWScheme: function() {
+      return this.schemeFromDegrees([0, 60, 210]);
     },
 
-    triadicScheme: function ( ) {
-      return this.schemeFromDegrees([0,120,240]);
+    triadicScheme: function() {
+      return this.schemeFromDegrees([0, 120, 240]);
     },
 
-    clashScheme: function ( ) {
-      return this.schemeFromDegrees([0,90,270]);
+    clashScheme: function() {
+      return this.schemeFromDegrees([0, 90, 270]);
     },
 
-    tetradicScheme: function ( ) {
-      return this.schemeFromDegrees([0,90,180,270]);
+    tetradicScheme: function() {
+      return this.schemeFromDegrees([0, 90, 180, 270]);
     },
 
-    fourToneCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,60,180,240]);
+    fourToneCWScheme: function() {
+      return this.schemeFromDegrees([0, 60, 180, 240]);
     },
 
-    fourToneCCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,120,180,300]);
+    fourToneCCWScheme: function() {
+      return this.schemeFromDegrees([0, 120, 180, 300]);
     },
 
-    fiveToneAScheme: function ( ) {
-      return this.schemeFromDegrees([0,115,155,205,245]);
+    fiveToneAScheme: function() {
+      return this.schemeFromDegrees([0, 115, 155, 205, 245]);
     },
 
-    fiveToneBScheme: function ( ) {
-      return this.schemeFromDegrees([0,40,90,130,245]);
+    fiveToneBScheme: function() {
+      return this.schemeFromDegrees([0, 40, 90, 130, 245]);
     },
 
-    fiveToneCScheme: function ( ) {
-      return this.schemeFromDegrees([0,50,90,205,320]);
+    fiveToneCScheme: function() {
+      return this.schemeFromDegrees([0, 50, 90, 205, 320]);
     },
 
-    fiveToneDScheme: function ( ) {
-      return this.schemeFromDegrees([0,40,155,270,310]);
+    fiveToneDScheme: function() {
+      return this.schemeFromDegrees([0, 40, 155, 270, 310]);
     },
 
-    fiveToneEScheme: function ( ) {
-      return this.schemeFromDegrees([0,115,230,270,320]);
+    fiveToneEScheme: function() {
+      return this.schemeFromDegrees([0, 115, 230, 270, 320]);
     },
 
-    sixToneCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,30,120,150,240,270]);
+    sixToneCWScheme: function() {
+      return this.schemeFromDegrees([0, 30, 120, 150, 240, 270]);
     },
 
-    sixToneCCWScheme: function ( ) {
-      return this.schemeFromDegrees([0,90,120,210,240,330]);
+    sixToneCCWScheme: function() {
+      return this.schemeFromDegrees([0, 90, 120, 210, 240, 330]);
     },
 
-    neutralScheme: function ( ) {
-      return this.schemeFromDegrees([0,15,30,45,60,75]);
+    neutralScheme: function() {
+      return this.schemeFromDegrees([0, 15, 30, 45, 60, 75]);
     },
 
-    analogousScheme: function ( ) {
-      return this.schemeFromDegrees([0,30,60,90,120,150]);
+    analogousScheme: function() {
+      return this.schemeFromDegrees([0, 30, 60, 90, 120, 150]);
     },
 
-    fromObject: function ( o ) {
+    fromObject: function(o) {
       if (o.hasOwnProperty('hue') &&
-          o.hasOwnProperty('saturation') &&
-          o.hasOwnProperty('value')) {
+        o.hasOwnProperty('saturation') &&
+        o.hasOwnProperty('value')) {
         var hsv = factories.HSV();
 
         hsv.hue = o.hue;
@@ -626,21 +875,21 @@ if (!net.brehaut) { net.brehaut = {}; }
       return null;
     },
 
-    _normalise: function ( ) {
-       this.hue %= 360;
-       this.saturation = Math.min(Math.max(0, this.saturation), 1);
-       this.value = Math.min(Math.max(0, this.value));
-       this.alpha = Math.min(1, Math.max(0, this.alpha));
+    _normalise: function() {
+      this.hue %= 360;
+      this.saturation = Math.min(Math.max(0, this.saturation), 1);
+      this.value = Math.min(Math.max(0, this.value));
+      this.alpha = Math.min(1, Math.max(0, this.alpha));
     },
 
-    toRGB: function ( ) {
+    toRGB: function() {
       this._normalise();
 
       var rgb = factories.RGB();
       var i;
       var f, p, q, t;
 
-      if( this.saturation === 0 ) {
+      if (this.saturation === 0) {
         // achromatic (grey)
         rgb.red = this.value;
         rgb.green = this.value;
@@ -649,14 +898,14 @@ if (!net.brehaut) { net.brehaut = {}; }
         return rgb;
       }
 
-      var h = this.hue / 60;			// sector 0 to 5
-      i = Math.floor( h );
-      f = h - i;			// factorial part of h
-      p = this.value * ( 1 - this.saturation );
-      q = this.value * ( 1 - this.saturation * f );
-      t = this.value * ( 1 - this.saturation * ( 1 - f ) );
+      var h = this.hue / 60; // sector 0 to 5
+      i = Math.floor(h);
+      f = h - i; // factorial part of h
+      p = this.value * (1 - this.saturation);
+      q = this.value * (1 - this.saturation * f);
+      t = this.value * (1 - this.saturation * (1 - f));
 
-      switch( i ) {
+      switch (i) {
         case 0:
           rgb.red = this.value;
           rgb.green = t;
@@ -682,7 +931,7 @@ if (!net.brehaut) { net.brehaut = {}; }
           rgb.green = p;
           rgb.blue = this.value;
           break;
-        default:		// case 5:
+        default: // case 5:
           rgb.red = this.value;
           rgb.green = p;
           rgb.blue = q;
@@ -700,8 +949,8 @@ if (!net.brehaut) { net.brehaut = {}; }
 
       hsl.hue = this.hue;
       var l = (2 - this.saturation) * this.value,
-          s = this.saturation * this.value;
-      if(l && 2 - l) {
+        s = this.saturation * this.value;
+      if (l && 2 - l) {
         s /= (l <= 1) ? l : 2 - l;
       }
       l /= 2;
@@ -712,7 +961,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       return hsl;
     },
 
-    toHSV: function ( ) {
+    toHSV: function() {
       return this.clone();
     }
   });
@@ -723,36 +972,36 @@ if (!net.brehaut) { net.brehaut = {}; }
     lightness: 0,
     alpha: 1,
 
-    darkenByAmount: cloneOnApply(function ( val ) {
+    darkenByAmount: cloneOnApply(function(val) {
       this.lightness = Math.min(1, Math.max(this.lightness - val, 0));
     }),
 
-    darkenByRatio: cloneOnApply(function ( val ) {
+    darkenByRatio: cloneOnApply(function(val) {
       this.lightness = Math.min(1, Math.max(this.lightness * (1 - val), 0));
     }),
 
-    lightenByAmount: cloneOnApply(function ( val ) {
+    lightenByAmount: cloneOnApply(function(val) {
       this.lightness = Math.min(1, Math.max(this.lightness + val, 0));
     }),
 
-    lightenByRatio: cloneOnApply(function ( val ) {
+    lightenByRatio: cloneOnApply(function(val) {
       this.lightness = Math.min(1, Math.max(this.lightness * (1 + val), 0));
     }),
 
-    fromObject: function ( o ) {
+    fromObject: function(o) {
       if ("string" == typeof o) {
-        return this._fromCSS( o );
+        return this._fromCSS(o);
       }
       if (o.hasOwnProperty('hue') &&
-          o.hasOwnProperty('saturation') &&
-          o.hasOwnProperty('lightness')) {
-        return this._fromHSL ( o );
+        o.hasOwnProperty('saturation') &&
+        o.hasOwnProperty('lightness')) {
+        return this._fromHSL(o);
       }
       // nothing matchs, not an RGB object
     },
 
-    _fromCSS: function ( css ) {
-      var colorGroups = trim( css ).match( hsl_hsla_regex );
+    _fromCSS: function(css) {
+      var colorGroups = trim(css).match(hsl_hsla_regex);
 
       // if there is an "a" after "hsl", there must be a fourth parameter and the other way round
       if (!colorGroups || (!!colorGroups[1] + !!colorGroups[5] === 1)) {
@@ -760,15 +1009,15 @@ if (!net.brehaut) { net.brehaut = {}; }
       }
 
       var hsl = factories.HSL();
-      hsl.hue        = (colorGroups[2] % 360 + 360) % 360;
+      hsl.hue = (colorGroups[2] % 360 + 360) % 360;
       hsl.saturation = Math.max(0, Math.min(parseInt(colorGroups[3], 10) / 100, 1));
-      hsl.lightness  = Math.max(0, Math.min(parseInt(colorGroups[4], 10) / 100, 1));
-      hsl.alpha      = !!colorGroups[5] ? Math.max(0, Math.min(1, parseFloat(colorGroups[6]))) : 1;
+      hsl.lightness = Math.max(0, Math.min(parseInt(colorGroups[4], 10) / 100, 1));
+      hsl.alpha = !!colorGroups[5] ? Math.max(0, Math.min(1, parseFloat(colorGroups[6]))) : 1;
 
       return hsl;
     },
 
-    _fromHSL: function ( HSL ) {
+    _fromHSL: function(HSL) {
       var newHSL = factories.HSL();
 
       newHSL.hue = HSL.hue;
@@ -780,11 +1029,11 @@ if (!net.brehaut) { net.brehaut = {}; }
       return newHSL;
     },
 
-    _normalise: function ( ) {
-       this.hue = (this.hue % 360 + 360) % 360;
-       this.saturation = Math.min(Math.max(0, this.saturation), 1);
-       this.lightness = Math.min(Math.max(0, this.lightness));
-       this.alpha = Math.min(1, Math.max(0, this.alpha));
+    _normalise: function() {
+      this.hue = (this.hue % 360 + 360) % 360;
+      this.saturation = Math.min(Math.max(0, this.saturation), 1);
+      this.lightness = Math.min(Math.max(0, this.lightness));
+      this.alpha = Math.min(1, Math.max(0, this.alpha));
     },
 
     toHSL: function() {
@@ -798,7 +1047,7 @@ if (!net.brehaut) { net.brehaut = {}; }
       // http://ariya.blogspot.com/2008/07/converting-between-hsl-and-hsv.html
       hsv.hue = this.hue; // H
       var l = 2 * this.lightness,
-          s = this.saturation * ((l <= 1) ? l : 2 - l);
+        s = this.saturation * ((l <= 1) ? l : 2 - l);
       hsv.value = (l + s) / 2; // V
       hsv.saturation = ((2 * s) / (l + s)) || 0; // S
       hsv.alpha = this.alpha;
@@ -814,15 +1063,15 @@ if (!net.brehaut) { net.brehaut = {}; }
 
   /* the Color function is a factory for new color objects.
    */
-  function Color( o ) {
-    return color.fromObject( o );
+  function Color(o) {
+    return color.fromObject(o);
   }
-  Color.isValid = function( str ) {
-    var key, c = Color( str );
+  Color.isValid = function(str) {
+    var key, c = Color(str);
 
     var length = 0;
-    for(key in c) {
-      if(c.hasOwnProperty(key)) {
+    for (key in c) {
+      if (c.hasOwnProperty(key)) {
         length++;
       }
     }
@@ -833,7 +1082,7 @@ if (!net.brehaut) { net.brehaut = {}; }
 }).call(net.brehaut);
 
 /* Export to CommonJS
-*/
-if(typeof module !== 'undefined') {
+ */
+if (typeof module !== 'undefined') {
   module.exports = net.brehaut.Color;
 }
