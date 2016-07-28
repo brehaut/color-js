@@ -425,7 +425,16 @@ if (!net.brehaut) {
      * http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html#RTFToC9
      */
     getLuminance: function() {
-      return (this.red * 0.2126) + (this.green * 0.7152) + (this.blue * 0.0722);
+      var rgba = [this.red, this.green, this.blue, this.alpha];
+      for(var i=0; i<3; i++) {
+		var rgb = rgba[i];
+
+		rgb = rgb < .03928 ? rgb / 12.92 : Math.pow((rgb + .055) / 1.055, 2.4);
+
+		rgba[i] = rgb;
+	  }
+
+      return (rgba[0] * 0.2126) + (rgba[1] * 0.7152) + (rgba[2] * 0.0722);
     },
 
     /* does an alpha based blend of color onto this. alpha is the
@@ -449,8 +458,6 @@ if (!net.brehaut) {
       // From specification, if no background color is provided
       // background is considered white
 
-
-      
       var fground = color.toRGB();
       var bground = this.clone();
 
@@ -458,6 +465,7 @@ if (!net.brehaut) {
         if (fground.alpha < 1) {
             fground = fground._overlayOn(bground);  
         }
+
 
         var l1 = bground.getLuminance() + .05;
         var l2 = fground.getLuminance() + .05;
@@ -478,22 +486,28 @@ if (!net.brehaut) {
         
       }
 
-      var onBlack = this._overlayOn(this._fromCSS("black")),
-          onWhite = this._overlayOn(this._fromCSS("white")),
-          contrastOnBlack = onBlack.contrast(fground).ratio,
-          contrastOnWhite = onWhite.contrast(fground).ratio;
+      var onBlack = this._overlayOn(this._fromRGBArray([0,0,0])),
+          onWhite = this._overlayOn(this._fromRGBArray([255,255,255])),
+          contrastOnBlack = onBlack.colorContrast(fground).ratio,
+          contrastOnWhite = onWhite.colorContrast(fground).ratio;
+      
 
       var max = Math.max(contrastOnBlack, contrastOnWhite);
 
       // This is here for backwards compatibility and not used to calculate
       // `min`.  Note that there may be other colors with a closer luminance to
       // `color` if they have a different hue than `this`.
-      var closest = {};
-      closest.red = Math.min(Math.max(0, (fground.red - bground.red*bground.alpha)/(1-bground.alpha)) , 255);
-      closest.green = Math.min(Math.max(0, (fground.green - bground.green*bground.alpha)/(1-bground.alpha)) , 255);
-      closest.blue = Math.min(Math.max(0, (fground.blue - bground.blue*bground.alpha)/(1-bground.alpha)) , 255);
+      var fRGB = [fground.red,fground.green,fground.blue].map(function(c) {
+        return c*255;
+      });
+      var bRGB = [bground.red,bground.green,bground.blue].map(function(c) {
+        return c*255;
+      })
+      var closest = bRGB.map(function(c,i) {
+        return Math.min(Math.max(0, (fRGB[i] - c * bground.alpha)/(1-bground.alpha)), 255); 
+      })
 
-      closest = this._fromRGB(closest);
+      closest = this._fromRGBArray(closest)
 
       var min = 1;
       if (onBlack.getLuminance() > color.getLuminance()) {
@@ -532,6 +546,7 @@ if (!net.brehaut) {
         overlaid.alpha = alpha + color.alpha * (1 - alpha);
 
         return overlaid;
+
 
     },
 
