@@ -1,4 +1,8 @@
 node_modules/
+.vscode/
+.idea/
+
+test.html
 npm-debug.log
 .vscode
 test.html
