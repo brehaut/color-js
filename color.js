@@ -144,6 +144,13 @@ if (!net.brehaut) {
         };
     }
 
+    
+    /* return the number rounded to {precision} decimals 
+     */
+    function roundWithPrecision(number,precision) {
+        return (Math.round(number * Math.pow(10,precision)))/Math.pow(10, precision);
+    }
+
 
     /* registerModel is used to add additional representations
      * to the color code, and extend the color API with the new
@@ -282,6 +289,20 @@ if (!net.brehaut) {
             return (this.red * 0.2126) + (this.green * 0.7152) + (this.blue * 0.0722);
         },
 
+        
+        /* relativeLuminance return a value between 0 and 1, this is the luminance
+         * calculated according to 
+         * https://www.w3.org/TR/WCAG/#relativeluminancedef
+         */
+        relativeLuminance: function() {
+            var R,G,B;
+            R = this.red < 0.03928 ? this.red / 12.92 : Math.pow((this.red + 0.055)/1.055,2.4);
+            G = this.green < 0.03928 ? this.green / 12.92 : Math.pow((this.green + 0.055)/1.055,2.4);
+            B = this.blue < 0.03928 ? this.blue / 12.92 : Math.pow((this.blue + 0.055)/1.055,2.4);
+
+            return (R * 0.2126) + (G * 0.7152) + (B * 0.0722);
+        },
+
         /* does an alpha based blend of color onto this. alpha is the
          * amount of 'color' to use. (0 to 1)
          */
@@ -297,6 +318,25 @@ if (!net.brehaut) {
 
             return rgb;
         },
+
+        /* return the contrast ratio between this color and a background color
+         * as stated https://www.w3.org/TR/WCAG/#contrast-ratiodef
+         */
+        getColorContrast: function(backgroundColor) {
+            var L1 = relativeLuminance(this),
+                L2 = relativeLuminance(backgroundColor.toRGB());
+            
+            if (L2 > L1) {
+                var temp = L2;
+                L2 = L1;
+                L1 = temp;
+            }
+
+            return roundWithPrecision((L1+0.05)/(L2+0.05),2);
+
+        },
+
+        
 
         /* fromObject attempts to convert an object o to and RGB
          * instance. This accepts an object with red, green and blue
