@@ -294,11 +294,12 @@ if (!net.brehaut) {
          * calculated according to 
          * https://www.w3.org/TR/WCAG/#relativeluminancedef
          */
-        relativeLuminance: function() {
+        relativeLuminance: function(color) {
             var R,G,B;
-            R = this.red < 0.03928 ? this.red / 12.92 : Math.pow((this.red + 0.055)/1.055,2.4);
-            G = this.green < 0.03928 ? this.green / 12.92 : Math.pow((this.green + 0.055)/1.055,2.4);
-            B = this.blue < 0.03928 ? this.blue / 12.92 : Math.pow((this.blue + 0.055)/1.055,2.4);
+            
+            R = color.red < 0.03928 ? color.red / 12.92 : Math.pow((color.red + 0.055)/1.055,2.4);
+            G = color.green < 0.03928 ? color.green / 12.92 : Math.pow((color.green + 0.055)/1.055,2.4);
+            B = color.blue < 0.03928 ? color.blue / 12.92 : Math.pow((color.blue + 0.055)/1.055,2.4);
 
             return (R * 0.2126) + (G * 0.7152) + (B * 0.0722);
         },
@@ -322,9 +323,9 @@ if (!net.brehaut) {
         /* return the contrast ratio between this color and a background color
          * as stated https://www.w3.org/TR/WCAG/#contrast-ratiodef
          */
-        getColorContrast: function(backgroundColor) {
-            var L1 = relativeLuminance(this),
-                L2 = relativeLuminance(backgroundColor.toRGB());
+        getContrastRatio: function(backgroundColor) {
+            var L1 = this.relativeLuminance(this),
+                L2 = this.relativeLuminance(backgroundColor.toRGB());
             
             if (L2 > L1) {
                 var temp = L2;
@@ -332,7 +333,7 @@ if (!net.brehaut) {
                 L1 = temp;
             }
 
-            return roundWithPrecision((L1+0.05)/(L2+0.05),2);
+            return roundWithPrecision((L1+0.05)/(L2+0.05),1);
 
         },
 

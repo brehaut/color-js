@@ -295,35 +295,32 @@ vows.describe('Color').addBatch({
                                  value: .5 }) );
     }
   },
-  'RGB(R=1; G=0; B=0)': {
-    topic: Color({
-      red: 1,
-      green: 0,
-      blue: 0
-    }),
-    'should have a color contrast of 5.3 against background RGB(R=0,R=0,R=0)': function(color) {
-      assert.equal( Color({red:0, green:0, blue:0}).colorContrast(color).ratio, 5.3);
+  'The contrast ratio between': {
+    'RGB(R=1; G=0; B=1) (red) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 1, 
+                    green:0, 
+                    blue: 0}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 4': function(contrastRatio) {
+        assert.equal(contrastRatio,4);
+      }
     },
-    'should have a color contrast of 1.6(±0.4) with RGBA(R=14/255,G=200/255,B=44/255,A=0.8)': function(color) {
-      var expectedRatio = {
-        ratio: 1.6,
-        error: 0.4
-      };
-      var actualRatio = Color({red:14/255, green: 200/255, blue:44/255, alpha: 0.8}).colorContrast(color);
-      assert.equal(actualRatio.ratio, expectedRatio.ratio);
-      assert.equal(actualRatio.error, expectedRatio.error);
-    }
-  },
-  'HSLA(H=200; S=0; L=0; A=70%)': {
-    topic: Color({
-      hue: 200,
-      saturation: 0,
-      lightness: 0,
-      alpha: 0.7
-    }),
-    'should have a color contrast of 8.4 against yellow background': function(color) {
-      assert.equal( Color("yellow").colorContrast(color).ratio, 8.3);
-    }
+    'RGB(R=45/255; G=200/255; B=45/255) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 45/255, 
+                    green:200/255, 
+                    blue: 45/255}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 2.2': function(contrastRatio) {
+        assert.equal(contrastRatio,2.2);
+      }
+    },
+    'RGB(R=0; G=0; B=0) (black) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 0, 
+                    green:0, 
+                    blue: 0}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 21': function(contrastRatio) {
+        assert.equal(contrastRatio,21);
+      }
+    },
+
   },
   '"rgb(55, 111, 222)"': validCSS(true),
   '"rgb(2.2, 3.3, 127.3 )"': validCSS(false),
