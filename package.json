@@ -1,6 +1,6 @@
 {
   "name": "color-js",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A color management API for JavaScript",
   "main": "color.js",
   "directories": {
@@ -23,7 +23,8 @@
     "Matt Wilson (http://problemattic.net)",
     "Simon Heimler",
     "Michel Vielmetter",
-    "Jim O'Brien <git@jimmed.net>"
+    "Jim O'Brien <git@jimmed.net>",
+    "Gianluca Maggio"
   ],
   "license": "BSD 2-Clause",
   "bugs": {
