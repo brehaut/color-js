@@ -137,7 +137,10 @@ Internally theres a bit of metaprogramming soup to make it easier to define colo
 
 # Changes
 
-<dl>  
+<dl>
+  <dt><em>Jan 24, 2017</em></dt>
+  <dd>Version 1.0.4: Changed type declaration for using with Angular 2</dd>
+
   <dt><em>May 12, 2015</em></dt>
   <dd>Version 1.0.2: Add package.json for NPM publishing.</dd>
 
