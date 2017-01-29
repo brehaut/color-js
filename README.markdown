@@ -1,3 +1,12 @@
+<section>
+<h3>Notice: Maintainer wanted</h3>
+<p>
+I no longer have time to maintain this project in a timely manner and am looking for someone to take over. If you are interested please contact me. 
+</p>
+</section>
+
+# Readme
+
 <script language="javascript" src="https://raw.github.com/brehaut/color-js/master/color.js"></script>
 <a href="https://raw.github.com/brehaut/color-js/master/color.js">Color.js</a> provides an API to do simple color management in javascript. Color objects provide methods to do a number of common, useful operations independent of the underlying color model they need. 
 
