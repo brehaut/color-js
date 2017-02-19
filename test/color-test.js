@@ -37,6 +37,17 @@ vows.describe('Color').addBatch({
                                    alpha: 1 }) );
       }
     },
+    '#f000': {
+      topic: Color('#f000'),
+      
+      'should be equal to RGB(R=1; G=0; B=0; ALPHA=0)': function(color) {
+        assert.colorEqual( color,
+                           Color({ red: 1,
+                                   green: 0,
+                                   blue: 0,
+                                   alpha: 0 }) );
+      }
+    },
     '#f0f000': {
       topic: Color('#f0f000'),
       'should be equal to RGB(R=240/255; G=240/255; B=0; ALPHA=1)': function(color) {
@@ -45,6 +56,16 @@ vows.describe('Color').addBatch({
                                    green: 240/255,
                                    blue: 0,
                                    alpha: 1 }) );
+      }
+    },
+    '#000000f0': {
+      topic: Color('#000000f0'),
+      'should be equal to RGB(R=0; G=0; B=0; ALPHA=240/255)': function(color) {
+        assert.colorEqual( color,
+                           Color({ red: 0,
+                                   green: 0,
+                                   blue: 0,
+                                   alpha: 240/255 }) );
       }
     },
     'rgb(0, 23, 42)': {
@@ -310,9 +331,13 @@ vows.describe('Color').addBatch({
   '"rgba(1, 2, 3)"': validCSS(false),
   '"rgba(11, 22, 33, -.5)"': validCSS(true),
   '"rgba(33%, 50%, )"': validCSS(false),
-  '"#f00"': validCSS(true),
   '"f00"': validCSS(false),
+  '"#f00"': validCSS(true),
+  '"#f000"': validCSS(true),
+  '"#f0000"': validCSS(false),
   '"#00AA00"': validCSS(true),
+  '"#00aAAA9"': validCSS(false),
+  '"#00aAAA99"': validCSS(true),
   '"#00aAAA999"': validCSS(false),
   '"hsl(300.3, 100%, 50%)"': validCSS(true),
   '"hsl(-300.3, 110%, -50%)"': validCSS(true),

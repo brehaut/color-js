@@ -353,22 +353,21 @@ if (!net.brehaut) {
                     css = css_colors[lower];
                 }
 
-                if (!css.match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/)) {
-                    return;
+                var bytes = (css.length < 7) ? 1 : 2;
+                var colorExp = '([a-z\\d]{' + bytes + '})';
+                var regexp = '^#' + colorExp + colorExp + colorExp + colorExp + '?$';
+
+                var match = css.match(new RegExp(regexp, 'i'));
+
+                if (match !== null) {
+                    var max = Math.pow(16, bytes) - 1;
+                    var rgb = factories.RGB();
+                    rgb.red = parseInt(match[1], 16) / max;
+                    rgb.green = parseInt(match[2], 16) / max;
+                    rgb.blue = parseInt(match[3], 16) / max;
+                    rgb.alpha = match[4] ? parseInt(match[4], 16) / max : 1;
+                    return rgb;
                 }
-
-                css = css.replace(/^#/, '');
-
-                var bytes = css.length / 3;
-
-                var max = Math.pow(16, bytes) - 1;
-
-                var rgb = factories.RGB();
-                rgb.red = parseInt(css.slice(0, bytes), 16) / max;
-                rgb.green = parseInt(css.slice(bytes * 1, bytes * 2), 16) / max;
-                rgb.blue = parseInt(css.slice(bytes * 2), 16) / max;
-                rgb.alpha = 1;
-                return rgb;
             },
 
             function(css) {
