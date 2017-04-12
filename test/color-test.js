@@ -295,6 +295,36 @@ vows.describe('Color').addBatch({
                                  value: .5 }) );
     }
   },
+  'RGB(R=1; G=0; B=0)': {
+    topic: Color({
+      red: 1,
+      green: 0,
+      blue: 0
+    }),
+    'should have a color contrast of 5.3 against background RGB(R=0,R=0,R=0)': function(color) {
+      assert.equal( Color({red:0, green:0, blue:0}).colorContrast(color).ratio, 5.3);
+    },
+    'should have a color contrast of 1.6(±0.4) with RGBA(R=14/255,G=200/255,B=44/255,A=0.8)': function(color) {
+      var expectedRatio = {
+        ratio: 1.6,
+        error: 0.4
+      };
+      var actualRatio = Color({red:14/255, green: 200/255, blue:44/255, alpha: 0.8}).colorContrast(color);
+      assert.equal(actualRatio.ratio, expectedRatio.ratio);
+      assert.equal(actualRatio.error, expectedRatio.error);
+    }
+  },
+  'HSLA(H=200; S=0; L=0; A=70%)': {
+    topic: Color({
+      hue: 200,
+      saturation: 0,
+      lightness: 0,
+      alpha: 0.7
+    }),
+    'should have a color contrast of 8.4 against yellow background': function(color) {
+      assert.equal( Color("yellow").colorContrast(color).ratio, 8.3);
+    }
+  },
   '"rgb(55, 111, 222)"': validCSS(true),
   '"rgb(2.2, 3.3, 127.3 )"': validCSS(false),
   '"rgb(1, 2, 3, 4)"': validCSS(false),
