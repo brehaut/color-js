@@ -7,7 +7,6 @@ I no longer have time to maintain this project in a timely manner and am looking
 
 # Readme
 
-<script language="javascript" src="https://raw.github.com/brehaut/color-js/master/color.js"></script>
 <a href="https://raw.github.com/brehaut/color-js/master/color.js">Color.js</a> provides an API to do simple color management in javascript. Color objects provide methods to do a number of common, useful operations independent of the underlying color model they need. 
 
 The library supports RGB, HSV and HSL color models, along with alpha channel on all of them. CSS string representations of colors are supported for convenience. If you need colorspace management that correlates to human perception rather than display technology, [colorspace.js](http://boronine.com/colorspaces.js/) looks like an excellent library.
@@ -15,6 +14,8 @@ The library supports RGB, HSV and HSL color models, along with alpha channel on 
 Color objects are always immutable; all operations on them return new objects.
 
 This API is designed for correctness and clarity first, but operates at the expense of some performance. If you need raw performance look for a library that forces you to do the cloning and conversion yourself, rather than implicitly as this one does.
+
+> **Note:** In 2017 it's quite possible that you don't need this library, particularly for client side tasks; many use-cases can simply be achieved using CSS RGB, HSV, and HSL color syntaxes.
 
 # Using the library 
 
