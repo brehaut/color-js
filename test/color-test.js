@@ -295,6 +295,33 @@ vows.describe('Color').addBatch({
                                  value: .5 }) );
     }
   },
+  'The contrast ratio between': {
+    'RGB(R=1; G=0; B=1) (red) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 1, 
+                    green:0, 
+                    blue: 0}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 4': function(contrastRatio) {
+        assert.equal(contrastRatio,4);
+      }
+    },
+    'RGB(R=45/255; G=200/255; B=45/255) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 45/255, 
+                    green:200/255, 
+                    blue: 45/255}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 2.2': function(contrastRatio) {
+        assert.equal(contrastRatio,2.2);
+      }
+    },
+    'RGB(R=0; G=0; B=0) (black) and RGB(R=1; G=1; B=1) (white)': {
+      topic: Color({red: 0, 
+                    green:0, 
+                    blue: 0}).getContrastRatio(Color({red: 1, green: 1, blue: 1})),
+      'should be equal to 21': function(contrastRatio) {
+        assert.equal(contrastRatio,21);
+      }
+    },
+
+  },
   '"rgb(55, 111, 222)"': validCSS(true),
   '"rgb(2.2, 3.3, 127.3 )"': validCSS(false),
   '"rgb(1, 2, 3, 4)"': validCSS(false),

@@ -4,3 +4,5 @@ node_modules/
 
 test.html
 npm-debug.log
+.vscode
+test.html
