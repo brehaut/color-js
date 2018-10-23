@@ -117,6 +117,7 @@ declare module net.brehaut {
     // public constructor
     function Color(): Color;
     function Color(color: ColorConstructorValue): Color;
+    namespace Color{}
 }
 
 export = net.brehaut.Color;
