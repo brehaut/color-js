@@ -1,9 +1,8 @@
-<section>
-<h3>Notice: Maintainer wanted</h3>
-<p>
-I no longer have time to maintain this project in a timely manner and am looking for someone to take over. If you are interested please contact me. 
-</p>
-</section>
+# *Notice:* No longer maintained
+
+This library was created during a time where color support in CSS was minimal, and has since been superceded by both newer libraries and CSS itself. As of 2021 [http://colorjs.io](https://colorjs.io) is a project aiming to produce an correct and comprehensive color library for javascript that is colorspace aware and built on color science. 
+
+*****
 
 # Readme
 
