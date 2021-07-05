@@ -1,6 +1,6 @@
 # *Notice:* No longer maintained
 
-This library was created during a time where color support in CSS was minimal, and has since been superceded by both newer libraries and CSS itself. As of 2021 [http://colorjs.io](https://colorjs.io) is a project aiming to produce an correct and comprehensive color library for javascript that is colorspace aware and built on color science. 
+This library was created during a time where color support in CSS was minimal, and has since been superceded by both newer libraries and CSS itself. As of 2021 [colorjs.io](https://colorjs.io) is a project aiming to produce an correct and comprehensive color library for javascript that is colorspace aware and built on color science. 
 
 *****
 
